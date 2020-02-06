@@ -1,2 +1,2 @@
 # WebEngineeringProject
-University of Minho, Web Engrineering class project of Erasmus student Martin Kopka, Eduard Pizur and Higor Emanuel
+University of Minho, Web Engrineering class project of Erasmus students Martin Kopka, Eduard Pizur and Higor Emanuel

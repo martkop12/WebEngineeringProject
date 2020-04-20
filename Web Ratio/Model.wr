@@ -1,0 +1,925 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?webml version="4.0.3"?>
+<WebProject xmlns:gr="http://www.webratio.com/2006/WebML/Graph" xmlns:db="http://www.webratio.com/2006/WebML/Database" xmlns:wrxsd="http://www.webratio.com/2012/WebML/WRXSD" xmlns:layout="http://www.webratio.com/2006/WebML/Layout" xmlns:temp="http://www.webratio.com/2006/WebML/Temp" xmlns:bpm="http://www.webratio.com/2009/WebML/BPM" outputPath="${webapps_loc}/${project_name}" gr:showUnitContent="true" gr:showTooltip="true" httpPort="8080" httpsPort="8443" enableProjectDependencies="false" jobGroupName="WEBRATIO" wrTempNewProject="true" control="amRiYzpteXNxbDovL2xvY2FsaG9zdDozMzA2L3NrdXNrYUNyb3Nzd2Fsa3M=">  
+  <ServiceDataProviders/>  
+  <DataModel> 
+    <Entity id="User" name="User" duration="persistent" gr:x="20" gr:y="158" gr:hideAttributes="false" attributeOrder="userOID userName password email" db:database="db1" db:table="user"> 
+      <Attribute name="oid" id="userOID" type="integer" key="true" db:column="oid"/>  
+      <Attribute name="userName" id="userName" type="string" db:column="username"/>  
+      <Attribute name="password" id="password" type="password" db:column="password"/>  
+      <Attribute name="email" id="email" type="string" db:column="email"/> 
+    </Entity>  
+    <Entity id="Group" name="Group" duration="persistent" gr:x="250" gr:y="178" gr:hideAttributes="false" attributeOrder="groupOID groupName" db:database="db1" db:table="group"> 
+      <Attribute name="oid" id="groupOID" type="integer" key="true" db:column="oid"/>  
+      <Attribute name="groupName" id="groupName" type="string" db:column="groupname"/> 
+    </Entity>  
+    <Entity id="Module" name="Module" duration="persistent" gr:x="472" gr:y="167" gr:hideAttributes="false" attributeOrder="moduleOID moduleID moduleName" db:database="db1" db:table="module"> 
+      <Attribute name="oid" id="moduleOID" type="integer" key="true" db:column="oid"/>  
+      <Attribute name="moduleID" id="moduleID" type="string" db:column="moduleid"/>  
+      <Attribute name="moduleName" id="moduleName" type="string" db:column="modulename"/> 
+    </Entity>  
+    <Relationship id="User2Group_Group2User" name="User_Group" sourceEntity="User" targetEntity="Group" db:database="db1" db:table="user_group"> 
+      <RelationshipRole1 id="User2Group" name="groups" maxCard="N"> 
+        <db:JoinColumn attribute="userOID" name="user_oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="Group2User" name="users" maxCard="N"> 
+        <db:JoinColumn attribute="groupOID" name="group_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Relationship id="User2DefaultGroup_DefaultGroup2User" name="User_DefaultGroup" sourceEntity="User" targetEntity="Group" gr:bendpoints="113,42,-112,44" db:database="db1" db:table="user"> 
+      <RelationshipRole1 id="User2DefaultGroup" name="defaultGroup" maxCard="1"> 
+        <db:JoinColumn attribute="userOID" name="oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="DefaultGroup2User" name="defaultUsers" maxCard="N"> 
+        <db:JoinColumn attribute="groupOID" name="group_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Relationship id="Group2DefaultModule_DefaultModule2Group" name="Group_DefaultModule" sourceEntity="Group" targetEntity="Module" db:database="db1" db:table="group"> 
+      <RelationshipRole1 id="Group2DefaultModule" name="defaultModule" maxCard="1"> 
+        <db:JoinColumn attribute="groupOID" name="oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="DefaultModule2Group" name="defaultGroups" maxCard="N"> 
+        <db:JoinColumn attribute="moduleOID" name="module_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Relationship id="Group2Module_Module2Group" name="Group_Module" sourceEntity="Group" targetEntity="Module" gr:bendpoints="110,41,-115,41" db:database="db1" db:table="group_module"> 
+      <RelationshipRole1 id="Group2Module" name="modules" maxCard="N"> 
+        <db:JoinColumn attribute="groupOID" name="group_oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="Module2Group" name="groups" maxCard="N"> 
+        <db:JoinColumn attribute="moduleOID" name="module_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Entity id="ent2" name="Crosswalk" duration="persistent" attributeOrder="att7 att8 att10 att9" gr:x="115" gr:y="330" db:database="db1" db:table="crosswalk"> 
+      <Attribute id="att7" name="oid" key="true" type="integer" db:column="oid"/>  
+      <Attribute id="att8" name="latitude" type="float" db:column="latitude"/>  
+      <Attribute id="att9" name="stateOfCrossing" type="boolean" db:column="stateofcrossing"/>  
+      <Attribute id="att10" name="longitude" type="float" db:column="longitude"/> 
+    </Entity>  
+    <Entity id="ent3" name="Pedestrian" duration="persistent" attributeOrder="att11 att12 att13" gr:x="480" gr:y="330" db:database="db1" db:table="pedestrian"> 
+      <Attribute id="att11" name="oid" key="true" type="integer" db:column="oid"/>  
+      <Attribute id="att12" name="latitude" type="float" db:column="latitude" key="false"/>  
+      <Attribute id="att13" name="longitude" type="float" db:column="longitude" key="false"/> 
+    </Entity>  
+    <Entity id="ent4" name="Cars" duration="persistent" gr:x="495" gr:y="470" attributeOrder="att14 att15 att16" db:database="db1" db:table="cars"> 
+      <Attribute id="att14" name="oid" key="true" type="integer" db:column="oid"/>  
+      <Attribute id="att15" name="latitude" type="float" db:column="latitude"/>  
+      <Attribute id="att16" name="longitude" type="float" db:column="longitude"/> 
+    </Entity>  
+    <Relationship id="rel6" name="User_Crosswalk" sourceEntity="User" targetEntity="ent2" db:database="db1" db:table="user_crosswalk"> 
+      <RelationshipRole1 id="role11" name="UserToCrosswalk" maxCard="N"> 
+        <db:JoinColumn attribute="userOID" name="user_oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="role12" name="CrosswalkToUser" maxCard="N"> 
+        <db:JoinColumn attribute="att7" name="crosswalk_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Relationship id="rel7" name="Crosswalk_Pedestrian" sourceEntity="ent2" targetEntity="ent3" db:database="db1" db:table="crosswalk"> 
+      <RelationshipRole1 id="role13" name="CrosswalkToPedestrian" maxCard="1"> 
+        <db:JoinColumn attribute="att7" name="oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="role14" name="PedestrianToCrosswalk" maxCard="N"> 
+        <db:JoinColumn attribute="att11" name="pedestrian_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <Relationship id="rel8" name="Crosswalk_Cars" sourceEntity="ent2" targetEntity="ent4" db:database="db1" db:table="crosswalk"> 
+      <RelationshipRole1 id="role15" name="CrosswalkToCars" maxCard="1"> 
+        <db:JoinColumn attribute="att7" name="oid"/> 
+      </RelationshipRole1>  
+      <RelationshipRole2 id="role16" name="CarsToCrosswalk" maxCard="N"> 
+        <db:JoinColumn attribute="att14" name="cars_oid"/> 
+      </RelationshipRole2> 
+    </Relationship>  
+    <db:Database id="db1" name="sidewalkdatabase" type="MySQL" url="jdbc:mysql://localhost:3306/skuska" username="root"/> 
+  </DataModel>  
+  <WebModel defaultLocale="lcl1" layout:style="WebRatio" layout:inheritParameters="true" edtLvl="WebRatio Platform # 20200326" edtLvlCtrl="V2ViUmF0aW8gUGxhdGZvcm0gIyAyMDIwMDMyNkNvdW50cnlJU09DdHhQYXJhbUdyb3VwQ3R4UGFyYW1MYW5ndWFnZUlTT0N0eFBhcmFtVXNlckN0eFBhcmFt" homeSiteView="sv1"> 
+    <Locale id="lcl1" country="US" language="en"> 
+      <PatternConfiguration type="boolean" pattern="yes|no"/>  
+      <PatternConfiguration type="decimal" useNumberPattern="false" maxDecimal="3" minDecimal="0" minInteger="1" useThousandSeparator="true"/>  
+      <PatternConfiguration type="date" pattern="M/d/yy"/>  
+      <PatternConfiguration type="float" useNumberPattern="false" maxDecimal="3" minDecimal="0" minInteger="1" useThousandSeparator="true"/>  
+      <PatternConfiguration type="integer" useNumberPattern="false" minInteger="1" useThousandSeparator="true"/>  
+      <PatternConfiguration type="time" pattern="h:mm:ss a"/>  
+      <PatternConfiguration type="timestamp" pattern="M/d/yy h:mm:ss a"/> 
+    </Locale>  
+    <ContextParameter id="UserCtxParam" name="UserCtxParam" entity="User" type="entity"/>  
+    <ContextParameter id="GroupCtxParam" name="GroupCtxParam" entity="Group" type="entity"/>  
+    <ContextParameter id="LanguageISOCtxParam" name="LanguageISOCtxParam" type="string"/>  
+    <ContextParameter id="CountryISOCtxParam" name="CountryISOCtxParam" type="string"/>  
+    <ModuleView id="mov1" name="Create crosswalk"> 
+      <OperationModule gr:x="340" gr:y="155" id="opm1" name="Create crosswalk"> 
+        <OperationUnits> 
+          <InputCollectorUnit id="icu1" gr:x="30" gr:y="60"> 
+            <InputCollectorParameter id="icp1" name="latitude"/>  
+            <InputCollectorParameter id="icp3" name="stateOfCrossing"/>  
+            <InputCollectorParameter id="icp2" name="longitude"/>  
+            <OKLink id="oln1" name="OKFlow1" to="cru1"> 
+              <LinkParameter id="par1" name="latitude_latitude" source="icp1" target="cru1.att8"/>  
+              <LinkParameter id="par2" name="longitude_longitude" source="icp2" target="cru1.att10"/>  
+              <LinkParameter id="par3" name="stateOfCrossing_stateOfCrossing" source="icp3" target="cru1.att9"/> 
+            </OKLink> 
+          </InputCollectorUnit>  
+          <CreateUnit gr:x="345" gr:y="150" id="cru1" name="add" entity="ent2"> 
+            <OKLink id="oln2" name="OKFlow2" to="okcu1" automaticCoupling="true"/>  
+            <KOLink id="kln1" name="KOFlow1" to="kocu1" automaticCoupling="true"/> 
+          </CreateUnit>  
+          <OKCollectorUnit gr:x="590" gr:y="85" id="okcu1" name="OK Port1"/>  
+          <KOCollectorUnit gr:x="590" gr:y="205" id="kocu1" name="KO Port1"/> 
+        </OperationUnits> 
+      </OperationModule> 
+    </ModuleView>  
+    <ModuleView id="mov2" name="Create user"> 
+      <OperationModule id="opm3" name="Create pedestrian" gr:x="190" gr:y="145"> 
+        <OperationUnits> 
+          <InputCollectorUnit id="icu3" gr:x="30" gr:y="60"> 
+            <OKLink id="oln6" name="OKFlow4" to="cru3"> 
+              <LinkParameter id="par23" name="latitude_latitude" source="icp8" target="cru3.att12"/>  
+              <LinkParameter id="par24" name="longitude_longitude" source="icp9" target="cru3.att13"/> 
+            </OKLink>  
+            <InputCollectorParameter id="icp8" name="latitude"/>  
+            <InputCollectorParameter id="icp9" name="longitude"/> 
+          </InputCollectorUnit>  
+          <CreateUnit id="cru3" name="create pedestrian" gr:x="325" gr:y="75" entity="ent3"> 
+            <OKLink id="oln7" name="OKFlow5" to="okcu3" automaticCoupling="true"/>  
+            <KOLink id="kln5" name="KOFlow4" to="kocu3" automaticCoupling="true"/> 
+          </CreateUnit>  
+          <OKCollectorUnit id="okcu3" name="OK Port2" gr:x="585" gr:y="80"/>  
+          <KOCollectorUnit id="kocu3" name="KO Port2" gr:x="585" gr:y="175"/> 
+        </OperationUnits> 
+      </OperationModule> 
+    </ModuleView>  
+    <ModuleView id="mov3" name="Create car"> 
+      <OperationModule gr:x="300" gr:y="200" id="opm2" name="Create car"> 
+        <OperationUnits> 
+          <InputCollectorUnit id="icu2" gr:x="30" gr:y="60"> 
+            <OKLink id="oln4" name="OKFlow4" to="cru2"> 
+              <LinkParameter id="par14" name="latitude" source="icp5" target="cru2.att15"/>  
+              <LinkParameter id="par15" name="longitude" source="icp6" target="cru2.att16"/> 
+            </OKLink>  
+            <InputCollectorParameter id="icp5" name="latitude"/>  
+            <InputCollectorParameter id="icp6" name="longitude"/> 
+          </InputCollectorUnit>  
+          <CreateUnit gr:x="325" gr:y="75" id="cru2" name="create car" entity="ent4"> 
+            <OKLink id="oln5" name="OKFlow5" to="okcu2" automaticCoupling="true"/>  
+            <KOLink id="kln4" name="KOFlow4" to="kocu2" automaticCoupling="true"/> 
+          </CreateUnit>  
+          <OKCollectorUnit gr:x="455" gr:y="80" id="okcu2" name="OK Port2"/>  
+          <KOCollectorUnit gr:x="455" gr:y="180" id="kocu2" name="KO Port2"/> 
+        </OperationUnits> 
+      </OperationModule> 
+    </ModuleView>  
+    <ModuleView id="mov4" name="Deleting"> 
+      <OperationModule gr:x="230" gr:y="135" id="opm13" name="Delete car"> 
+        <OperationUnits> 
+          <InputCollectorUnit id="icu17" gr:x="30" gr:y="60"> 
+            <OKLink id="oln43" name="OKFlow43" to="dlu7"> 
+              <LinkParameter id="par91" name="KeyCondition15 [oid]" source="icp31" target="kcond15.att14"/>  
+              <LinkParameter id="par7" name="KeyCondition15 [oid]_PASSING" source="icp31" passing="true"/> 
+            </OKLink>  
+            <InputCollectorParameter id="icp31" name="KeyCondition15 [oid]"/> 
+          </InputCollectorUnit>  
+          <KOCollectorUnit gr:x="555" gr:y="200" id="kocu13" name="KO Port13"/>  
+          <OKCollectorUnit gr:x="590" gr:y="125" id="okcu13" name="OK Port13"/>  
+          <DeleteUnit gr:x="395" gr:y="100" id="dlu7" name="Delete7" entity="ent4"> 
+            <Selector id="su15" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond15" name="KeyCondition15" predicate="in" implied="false"/> 
+            </Selector>  
+            <OKLink id="oln44" name="OKFlow44" to="okcu13" automaticCoupling="true"/>  
+            <KOLink id="kln32" name="KOFlow32" to="kocu13" automaticCoupling="true"/> 
+          </DeleteUnit> 
+        </OperationUnits> 
+      </OperationModule>  
+      <OperationModule gr:x="450" gr:y="305" id="opm4" name="Delete crosswalk"> 
+        <OperationUnits> 
+          <InputCollectorUnit id="icu4" gr:x="30" gr:y="60"> 
+            <OKLink id="oln10" name="OKFlow10" to="dlu1"> 
+              <LinkParameter id="par16" name="KeyCondition1 [oid]_PASSING" source="icp4" passing="true"/>  
+              <LinkParameter id="par18" name="KeyCondition1 [oid]_KeyCondition1 [oid]" source="icp4" target="kcond1.att7"/> 
+            </OKLink>  
+            <InputCollectorParameter id="icp4" name="KeyCondition1 [oid]"/> 
+          </InputCollectorUnit>  
+          <OKCollectorUnit gr:x="530" gr:y="55" id="okcu4" name="OK Port4"/>  
+          <KOCollectorUnit gr:x="570" gr:y="170" id="kocu4" name="KO Port4"/>  
+          <DeleteUnit gr:x="370" gr:y="80" id="dlu1" name="Delete" entity="ent2"> 
+            <Selector id="su1" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond1" name="KeyCondition1" predicate="in" implied="false"/> 
+            </Selector>  
+            <OKLink id="oln11" name="OKFlow11" to="okcu4" automaticCoupling="true"/>  
+            <KOLink id="kln2" name="KOFlow2" to="kocu4" automaticCoupling="true"/> 
+          </DeleteUnit> 
+        </OperationUnits> 
+      </OperationModule>  
+      <OperationModule gr:x="250" gr:y="360" id="opm5" name="Delete pedestrian"> 
+        <OperationUnits> 
+          <InputCollectorUnit id="icu5" gr:x="30" gr:y="60"> 
+            <OKLink id="oln13" name="OKFlow13" to="dlu2"> 
+              <LinkParameter id="par11" name="KeyCondition2 [oid]" source="icp7" target="kcond2.att11"/>  
+              <LinkParameter id="par17" name="KeyCondition2 [oid]_PASSING" source="icp7" passing="true"/> 
+            </OKLink>  
+            <InputCollectorParameter id="icp7" name="KeyCondition2 [oid]"/> 
+          </InputCollectorUnit>  
+          <OKCollectorUnit gr:x="660" gr:y="90" id="okcu5" name="OK Port5"/>  
+          <KOCollectorUnit gr:x="660" gr:y="235" id="kocu5" name="KO Port5"/>  
+          <DeleteUnit gr:x="395" gr:y="150" id="dlu2" name="delete" entity="ent3"> 
+            <Selector id="su2" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond2" name="KeyCondition2" predicate="in" implied="false"/> 
+            </Selector>  
+            <KOLink id="kln6" name="KOFlow6" to="kocu5" automaticCoupling="true"/>  
+            <OKLink id="oln14" name="OKFlow14" to="okcu5" automaticCoupling="true"/> 
+          </DeleteUnit> 
+        </OperationUnits> 
+      </OperationModule> 
+    </ModuleView>  
+    <ModuleView id="mov5" name="Updates"> 
+      <OperationModule gr:x="375" gr:y="230" id="opm10" name="Update crosswalk"> 
+        <OperationUnits> 
+          <InputCollectorUnit id="icu12" gr:x="30" gr:y="60"> 
+            <OKLink id="oln29" name="OKFlow29" to="mfu3" automaticCoupling="false"> 
+              <LinkParameter id="par56" name="KeyCondition8 [oid]" source="icp21" target="kcond8.att7"/>  
+              <LinkParameter id="par57" name="latitude" source="icp22" target="mfu3.att8"/>  
+              <LinkParameter id="par58" name="longitude" source="icp23" target="mfu3.att10"/>  
+              <LinkParameter id="par59" name="stateOfCrossing" source="icp24" target="mfu3.att9"/> 
+            </OKLink>  
+            <InputCollectorParameter id="icp21" name="KeyCondition8 [oid]"/>  
+            <InputCollectorParameter id="icp22" name="latitude"/>  
+            <InputCollectorParameter id="icp23" name="longitude"/>  
+            <InputCollectorParameter id="icp24" name="stateOfCrossing"/> 
+          </InputCollectorUnit>  
+          <OKCollectorUnit gr:x="590" gr:y="90" id="okcu10" name="OK Port10"/>  
+          <KOCollectorUnit gr:x="590" gr:y="200" id="kocu10" name="KO Port10"/>  
+          <ModifyUnit gr:x="370" gr:y="100" id="mfu3" name="Update crosswalk" entity="ent2"> 
+            <Selector id="su8" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond8" name="KeyCondition8" predicate="in" implied="false"/> 
+            </Selector>  
+            <OKLink id="oln30" name="OKFlow30" to="okcu10" automaticCoupling="true"/>  
+            <KOLink id="kln15" name="KOFlow15" to="kocu10" automaticCoupling="true"/> 
+          </ModifyUnit> 
+        </OperationUnits> 
+      </OperationModule>  
+      <OperationModule gr:x="335" gr:y="350" id="opm11" name="Update pedestrian"> 
+        <OperationUnits> 
+          <InputCollectorUnit id="icu13" gr:x="30" gr:y="60"> 
+            <OKLink id="oln33" name="OKFlow33" to="mfu4" automaticCoupling="false"> 
+              <LinkParameter id="par67" name="KeyCondition9 [oid]" source="icp25" target="kcond9.att11"/>  
+              <LinkParameter id="par68" name="latitude" source="icp26" target="mfu4.att12"/>  
+              <LinkParameter id="par69" name="longitude" source="icp27" target="mfu4.att13"/> 
+            </OKLink>  
+            <InputCollectorParameter id="icp25" name="KeyCondition9 [oid]"/>  
+            <InputCollectorParameter id="icp26" name="latitude"/>  
+            <InputCollectorParameter id="icp27" name="longitude"/> 
+          </InputCollectorUnit>  
+          <OKCollectorUnit gr:x="715" gr:y="60" id="okcu11" name="OK Port11"/>  
+          <KOCollectorUnit gr:x="715" gr:y="180" id="kocu11" name="KO Port11"/>  
+          <ModifyUnit gr:x="430" gr:y="95" id="mfu4" name="Update pedestrian" entity="ent3"> 
+            <Selector id="su9" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond9" name="KeyCondition9" predicate="in" implied="false"/> 
+            </Selector>  
+            <OKLink id="oln32" name="OKFlow32" to="okcu11" automaticCoupling="true"/>  
+            <KOLink id="kln18" name="KOFlow18" to="kocu11" automaticCoupling="true"/> 
+          </ModifyUnit> 
+        </OperationUnits> 
+      </OperationModule>  
+      <OperationModule gr:x="160" gr:y="90" id="opm9" name="Update car"> 
+        <OperationUnits> 
+          <InputCollectorUnit id="icu11" gr:x="30" gr:y="60"> 
+            <OKLink id="oln27" name="OKFlow27" to="mfu2" automaticCoupling="false"> 
+              <LinkParameter id="par46" name="KeyCondition7 [oid]" source="icp18" target="kcond7.att14"/>  
+              <LinkParameter id="par47" name="latitude" source="icp19" target="mfu2.att15"/>  
+              <LinkParameter id="par48" name="longitude" source="icp20" target="mfu2.att16"/> 
+            </OKLink>  
+            <InputCollectorParameter id="icp18" name="KeyCondition7 [oid]"/>  
+            <InputCollectorParameter id="icp19" name="latitude"/>  
+            <InputCollectorParameter id="icp20" name="longitude"/> 
+          </InputCollectorUnit>  
+          <OKCollectorUnit gr:x="615" gr:y="65" id="okcu9" name="OK Port9"/>  
+          <KOCollectorUnit gr:x="615" gr:y="175" id="kocu9" name="KO Port9"/>  
+          <ModifyUnit gr:x="360" gr:y="130" id="mfu2" name="Update car" entity="ent4"> 
+            <Selector id="su7" defaultPolicy="fill" booleanOperator="and"> 
+              <KeyCondition id="kcond7" name="KeyCondition7" predicate="in" implied="false"/> 
+            </Selector>  
+            <OKLink id="oln26" name="OKFlow26" to="okcu9" automaticCoupling="true"/>  
+            <KOLink id="kln14" name="KOFlow14" to="kocu9" automaticCoupling="true"/> 
+          </ModifyUnit> 
+        </OperationUnits> 
+      </OperationModule> 
+    </ModuleView>  
+    <SiteView id="sv1" name="Crosswalks" homePage="page1"> 
+      <OperationUnits> 
+        <ModuleInstanceUnit gr:x="-5" gr:y="40" id="miu1" moduleId="opm1" action="true"> 
+          <OKLink id="oln3" name="OKFlow3" to="page1" automaticCoupling="true" gr:bendpoints="143,37,-107,-288"/>  
+          <KOLink id="kln25" name="KOFlow25" to="page2" automaticCoupling="true"/> 
+        </ModuleInstanceUnit>  
+        <ModuleInstanceUnit gr:x="545" gr:y="-60" id="miu2" action="true" moduleId="opm3"> 
+          <OKLink id="oln9" name="OKFlow9" to="page1" automaticCoupling="true" gr:bendpoints="-226,108,74,-317;-240,154,75,-191"/>  
+          <KOLink id="kln24" name="KOFlow24" to="page5" automaticCoupling="true"/> 
+        </ModuleInstanceUnit>  
+        <ModuleInstanceUnit gr:x="700" gr:y="120" id="miu3" action="true" moduleId="opm2"> 
+          <OKLink id="oln8" name="OKFlow8" to="page1" automaticCoupling="true" gr:bendpoints="-64,76,366,-169;-236,104,194,-141"/>  
+          <KOLink id="kln23" name="KOFlow23" to="page6" automaticCoupling="true"/> 
+        </ModuleInstanceUnit>  
+        <ModuleInstanceUnit gr:x="500" gr:y="365" id="miu9" action="true" moduleId="opm9"> 
+          <OKLink id="oln28" name="OKFlow28" to="page1" automaticCoupling="true"/>  
+          <KOLink id="kln17" name="KOFlow17" to="page7" automaticCoupling="true"/> 
+        </ModuleInstanceUnit>  
+        <ModuleInstanceUnit gr:x="540" gr:y="515" id="miu10" action="true" moduleId="opm10"> 
+          <OKLink id="oln31" name="OKFlow31" to="page1" automaticCoupling="true"/>  
+          <KOLink id="kln16" name="KOFlow16" to="page8" automaticCoupling="true"/> 
+        </ModuleInstanceUnit>  
+        <ModuleInstanceUnit gr:x="380" gr:y="690" id="miu11" action="true" moduleId="opm11"> 
+          <OKLink id="oln34" name="OKFlow34" to="page1" automaticCoupling="true"/>  
+          <KOLink id="kln19" name="KOFlow19" to="page9" automaticCoupling="true"/> 
+        </ModuleInstanceUnit>  
+        <ModuleInstanceUnit gr:x="50" gr:y="300" id="miu14" action="true" moduleId="opm13"> 
+          <OKLink id="oln45" name="OKFlow45" to="page1" automaticCoupling="true" gr:bendpoints="137,-13,-83,32"/>  
+          <KOLink id="kln33" name="KOFlow33" to="page12" automaticCoupling="true"/> 
+        </ModuleInstanceUnit>  
+        <ModuleInstanceUnit gr:x="-35" gr:y="410" id="miu4" action="true" moduleId="opm4"> 
+          <OKLink id="oln12" name="OKFlow12" to="page1" automaticCoupling="true"/>  
+          <KOLink id="kln3" name="KOFlow3" to="page12" automaticCoupling="true"/> 
+        </ModuleInstanceUnit>  
+        <ModuleInstanceUnit gr:x="-65" gr:y="565" id="miu5" action="true" moduleId="opm5"> 
+          <OKLink id="oln15" name="OKFlow15" to="page1" automaticCoupling="true"/>  
+          <KOLink id="kln7" name="KOFlow7" to="page12" automaticCoupling="true"/> 
+        </ModuleInstanceUnit> 
+      </OperationUnits>  
+      <Page gr:x="110" gr:y="-130" id="page2" name="Create crosswalk"> 
+        <ContentUnits> 
+          <EntryUnit gr:x="0" gr:y="0" id="enu1" name="Create crosswalk" entity="ent2" linkOrder="ln4"> 
+            <Link id="ln4" name="Add crosswalk" to="miu1" type="normal" validate="true"> 
+              <LinkParameter id="par4" name="latitude_latitude" source="fld1" target="miu1.icp1"/>  
+              <LinkParameter id="par5" name="longitude_longitude" source="fld2" target="miu1.icp2"/>  
+              <LinkParameter id="par6" name="stateOfCrossing_stateOfCrossing" source="fld3" target="miu1.icp3"/> 
+            </Link>  
+            <Field id="fld1" name="latitude" type="float" modifiable="true" attribute="att8"> 
+              <VRules> 
+                <MandatoryValidationRule id="mnd5" name="Mandatory5"/> 
+              </VRules> 
+            </Field>  
+            <Field id="fld2" name="longitude" type="float" modifiable="true" attribute="att10"> 
+              <VRules> 
+                <MandatoryValidationRule id="mnd6" name="Mandatory6"/> 
+              </VRules> 
+            </Field>  
+            <Field id="fld3" name="State of crossing" type="boolean" modifiable="true" attribute="att9"> 
+              <VRules> 
+                <MandatoryValidationRule id="mnd7" name="Mandatory7"/> 
+              </VRules> 
+            </Field> 
+          </EntryUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="enu1"> 
+                <layout:Link link="ln4"/>  
+                <layout:Field field="fld1"/>  
+                <layout:Field field="fld2"/>  
+                <layout:Field field="fld3"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="820" gr:y="460" id="page8" name="Update crosswalk"> 
+        <ContentUnits> 
+          <EntryUnit gr:x="0" gr:y="0" id="enu5" name="Update crosswalk" entity="ent2" fieldOrder="fld12 fld13 fld14" linkOrder="ln19"> 
+            <Field id="fld14" name="State of crossing" type="boolean" preloaded="true" modifiable="true"/>  
+            <Field id="fld13" name="longitude" type="float" preloaded="true" modifiable="true"/>  
+            <Field id="fld12" name="latitude" type="float" preloaded="true" modifiable="true"/>  
+            <Link id="ln19" name="Update" to="miu10" type="normal" validate="true"> 
+              <LinkParameter id="par60" name="Key [oid]_KeyCondition8 [oid]" source="key.att7" target="miu10.icp21"/>  
+              <LinkParameter id="par61" name="latitude_latitude" source="fld12" target="miu10.icp22"/>  
+              <LinkParameter id="par62" name="longitude_longitude" source="fld13" target="miu10.icp23"/>  
+              <LinkParameter id="par63" name="State of crossing_stateOfCrossing" source="fld14" target="miu10.icp24"/> 
+            </Link> 
+          </EntryUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="enu5"> 
+                <layout:Field field="fld12"/>  
+                <layout:Field field="fld13"/>  
+                <layout:Field field="fld14"/>  
+                <layout:Link link="ln19"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="-230" gr:y="705" id="page10" name="Near pedestrians"> 
+        <ContentUnits> 
+          <QueryUnit gr:x="0" gr:y="0" id="qu1" name="Pedestrian" mode="select" language="SQL" db="db1" gr:showAllParts="false" blockFactor="5" blockWindow="2" outputsOrder="qo1 qo2 qo3"> 
+            <QueryText xml:space="preserve">SELECT * 
+FROM skuska.pedestrian
+WHERE (111.111 *
+    DEGREES(ACOS(LEAST(1.0, COS(RADIANS(latitude))
+         * COS(RADIANS((:latitude)))
+         * COS(RADIANS(longitude - (:longitude)))
+         + SIN(RADIANS(latitude))
+         * SIN(RADIANS((:latitude))))))) &lt; 0.02;</QueryText>  
+            <QueryOutput id="qo1" name="oid"/>  
+            <QueryOutput id="qo2" name="latitude"/>  
+            <QueryOutput id="qo3" name="longitude"/>  
+            <QueryInput id="qi1" required="true" name="longitude" type="float"/>  
+            <QueryInput id="qi2" name="latitude" required="true" type="float"/> 
+          </QueryUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"></layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="qu1"> 
+                <layout:Link link="qu1First"/>  
+                <layout:Link link="qu1Previous"/>  
+                <layout:Link link="qu1Block"/>  
+                <layout:Link link="qu1Next"/>  
+                <layout:Link link="qu1Last"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page id="page5" name="Create pedestrian" gr:x="315" gr:y="-110"> 
+        <ContentUnits> 
+          <EntryUnit id="enu3" name="Create pedestrian" gr:x="0" gr:y="0" entity="ent3" linkOrder="ln15" fieldOrder="fld7 fld8"> 
+            <Field id="fld7" name="latitude" type="float" modifiable="true"> 
+              <VRules> 
+                <MandatoryValidationRule id="mnd3" name="Mandatory3"/> 
+              </VRules> 
+            </Field>  
+            <Field id="fld8" name="longitude" type="float" modifiable="true"> 
+              <VRules> 
+                <MandatoryValidationRule id="mnd4" name="Mandatory4"/> 
+              </VRules> 
+            </Field>  
+            <Link id="ln15" name="Add pedestrian" to="miu2" type="normal" validate="true"> 
+              <LinkParameter id="par19" name="latitude_latitude" source="fld7" target="miu2.icp8"/>  
+              <LinkParameter id="par20" name="longitude_longitude" source="fld8" target="miu2.icp9"/> 
+            </Link> 
+          </EntryUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="enu3"> 
+                <layout:Link link="ln15"/>  
+                <layout:Field field="fld7"/>  
+                <layout:Field field="fld8"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="280" gr:y="210" id="page1" name="Project" localized="false" linkVisibilityPolicy="always" linkOrder="ln21 ln22 ln23"> 
+        <ContentUnits> 
+          <IndexUnit gr:x="0" gr:y="120" id="inu2" name="Crosswalks" entity="ent2" displayAttributes="att7 att8 att10 att9" linkOrder="ln18 ln1 ln5 ln6"> 
+            <Link id="ln18" name="Update" to="enu5" type="normal" validate="true"> 
+              <LinkParameter id="par52" name="oid_Key Condition [oid]" source="data[].att7" target="enu5.att7"/>  
+              <LinkParameter id="par53" name="latitude_latitude" source="data[].att8" target="fld12_slot"/>  
+              <LinkParameter id="par54" name="longitude_longitude" source="data[].att10" target="fld13_slot"/>  
+              <LinkParameter id="par55" name="stateOfCrossing_State of crossing" source="data[].att9" target="fld14_slot"/> 
+            </Link>  
+            <Link id="ln1" name="Delete" to="miu4" type="normal" validate="true"> 
+              <LinkParameter id="par9" name="oid_KeyCondition1 [oid]" source="data[].att7" target="miu4.icp4"/>  
+              <LinkParameter id="par10" name="oid_PASSING" source="data[].att7" passing="true"/> 
+            </Link>  
+            <Link id="ln5" name="Near pedestrians" to="qu1" type="normal" validate="true"> 
+              <LinkParameter id="par27" name="latitude_latitude" source="data[].att8" target="qu1.qi2"/>  
+              <LinkParameter id="par28" name="longitude_longitude" source="data[].att10" target="qu1.qi1"/> 
+            </Link>  
+            <Link id="ln6" name="Near cars" to="qu3" type="normal" validate="true"> 
+              <LinkParameter id="par29" name="latitude_latitude" source="data[].att8" target="qu3.qi3"/>  
+              <LinkParameter id="par30" name="longitude_longitude" source="data[].att10" target="qu3.qi4"/> 
+            </Link> 
+          </IndexUnit>  
+          <IndexUnit gr:x="5" gr:y="240" id="inu4" name="Pedestrians" entity="ent3" displayAttributes="att11 att12 att13" linkOrder="ln20 ln2"> 
+            <Link id="ln20" name="Update" to="enu6" type="normal" validate="true"> 
+              <LinkParameter id="par64" name="oid_Key Condition [oid]" source="data[].att11" target="enu6.att11"/>  
+              <LinkParameter id="par65" name="latitude_latitude" source="data[].att12" target="fld15_slot"/>  
+              <LinkParameter id="par66" name="longitude_longitude" source="data[].att13" target="fld16_slot"/> 
+            </Link>  
+            <Link id="ln2" name="Delete" to="miu5" type="normal" validate="true"> 
+              <LinkParameter id="par13" name="oid_PASSING" source="data[].att11" passing="true"/>  
+              <LinkParameter id="par25" name="oid_KeyCondition2 [oid]" source="data[].att11" target="miu5.icp7"/> 
+            </Link> 
+          </IndexUnit>  
+          <IndexUnit gr:x="25" gr:y="0" id="inu5" name="Cars" entity="ent4" displayAttributes="att14 att15 att16" linkOrder="ln12 ln43"> 
+            <Link id="ln12" name="Update" to="enu2" type="normal" validate="true"> 
+              <LinkParameter id="par42" name="oid_Key Condition [oid]" source="data[].att14" target="enu2.att14"/>  
+              <LinkParameter id="par43" name="latitude_latitude" source="data[].att15" target="fld4_slot"/>  
+              <LinkParameter id="par44" name="longitude_longitude" source="data[].att16" target="fld5_slot"/> 
+            </Link>  
+            <Link id="ln43" name="Delete" to="miu14" type="normal" validate="true"> 
+              <LinkParameter id="par92" name="oid_KeyCondition15 [oid]" source="data[].att14" target="miu14.icp31"/>  
+              <LinkParameter id="par93" name="oid_PASSING" source="data[].att14" passing="true"/> 
+            </Link> 
+          </IndexUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="inu2"> 
+                <layout:Attribute attribute="att7"/>  
+                <layout:Attribute attribute="att8"/>  
+                <layout:Attribute attribute="att10"/>  
+                <layout:Attribute attribute="att9"/>  
+                <layout:Link link="ln18"/>  
+                <layout:Link link="ln1"/>  
+                <layout:Link link="ln5"/>  
+                <layout:Link link="ln6"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="inu4"> 
+                <layout:Link link="ln20"/>  
+                <layout:Link link="ln2"/>  
+                <layout:Attribute attribute="att11"/>  
+                <layout:Attribute attribute="att12"/>  
+                <layout:Attribute attribute="att13"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="inu5"> 
+                <layout:Link link="ln12"/>  
+                <layout:Link link="ln43"/>  
+                <layout:Attribute attribute="att14"/>  
+                <layout:Attribute attribute="att15"/>  
+                <layout:Attribute attribute="att16"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row>  
+          <layout:Row> 
+            <layout:Cell colspan="12"/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid>  
+        <Link id="ln21" name="add crosswalk" to="enu1" type="normal" automaticCoupling="true" validate="true" gr:bendpoints="-84,-288,71,162"/>  
+        <Link id="ln22" name="add pedestrian" to="enu3" type="normal" automaticCoupling="true" validate="true"/>  
+        <Link id="ln23" name="add car" to="enu4" type="normal" automaticCoupling="true" validate="true"/> 
+      </Page>  
+      <Page gr:x="710" gr:y="665" id="page9" name="Update pedestrian"> 
+        <ContentUnits> 
+          <EntryUnit gr:x="0" gr:y="0" id="enu6" name="Update pedestrian" entity="ent3" fieldOrder="fld15 fld16" linkOrder="ln24"> 
+            <Field id="fld16" name="longitude" type="float" preloaded="true" modifiable="true"/>  
+            <Field id="fld15" name="latitude" type="float" preloaded="true" modifiable="true"/>  
+            <Link id="ln24" name="Update" to="miu11" type="normal" validate="true"> 
+              <LinkParameter id="par70" name="Key [oid]_KeyCondition9 [oid]" source="key.att11" target="miu11.icp25"/>  
+              <LinkParameter id="par71" name="latitude_latitude" source="fld15" target="miu11.icp26"/>  
+              <LinkParameter id="par72" name="longitude_longitude" source="fld16" target="miu11.icp27"/> 
+            </Link> 
+          </EntryUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="enu6"> 
+                <layout:Field field="fld15"/>  
+                <layout:Field field="fld16"/>  
+                <layout:Link link="ln24"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="795" gr:y="295" id="page7" name="Update cars"> 
+        <ContentUnits> 
+          <EntryUnit gr:x="0" gr:y="0" id="enu2" name="Update car" entity="ent4" customDescriptor="false" fieldOrder="fld4 fld5" linkOrder="ln16"> 
+            <Field id="fld5" name="longitude" type="float" preloaded="true" modifiable="true"/>  
+            <Field id="fld4" name="latitude" type="float" preloaded="true" modifiable="true"/>  
+            <Link id="ln16" name="Update" to="miu9" type="normal" validate="true"> 
+              <LinkParameter id="par49" name="Key [oid]_KeyCondition7 [oid]" source="key.att14" target="miu9.icp18"/>  
+              <LinkParameter id="par50" name="latitude_latitude" source="fld4" target="miu9.icp19"/>  
+              <LinkParameter id="par51" name="longitude_longitude" source="fld5" target="miu9.icp20"/> 
+            </Link> 
+          </EntryUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="enu2"> 
+                <layout:Field field="fld4"/>  
+                <layout:Field field="fld5"/>  
+                <layout:Link link="ln16"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="-310" gr:y="285" id="page12" name="Something went wrong"> 
+        <ContentUnits> 
+          <MultiMessageUnit gr:x="0" gr:y="0" id="mssu2" name="Message2"> 
+            <Message xml:space="preserve">Something went wrong !</Message> 
+          </MultiMessageUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="mssu2"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page id="page6" name="Create car" gr:x="525" gr:y="85"> 
+        <ContentUnits> 
+          <EntryUnit id="enu4" name="Create car" gr:x="0" gr:y="0" entity="ent4" linkOrder="ln14" fieldOrder="fld10 fld11"> 
+            <Field id="fld10" name="latitude" type="float" modifiable="true"> 
+              <VRules> 
+                <MandatoryValidationRule id="mnd1" name="Mandatory1"/> 
+              </VRules> 
+            </Field>  
+            <Field id="fld11" name="longitude" type="float" modifiable="true"> 
+              <VRules> 
+                <MandatoryValidationRule id="mnd2" name="Mandatory2"/> 
+              </VRules> 
+            </Field>  
+            <Link id="ln14" name="Add car" to="miu3" type="normal" validate="true"> 
+              <LinkParameter id="par21" name="latitude_latitude" source="fld10" target="miu3.icp5"/>  
+              <LinkParameter id="par22" name="longitude_longitude" source="fld11" target="miu3.icp6"/> 
+            </Link> 
+          </EntryUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="enu4"> 
+                <layout:Link link="ln14"/>  
+                <layout:Field field="fld10"/>  
+                <layout:Field field="fld11"/> 
+              </layout:Unit> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page>  
+      <Page gr:x="110" gr:y="740" id="page3" name="Near cars"> 
+        <ContentUnits> 
+          <QueryUnit gr:x="0" gr:y="0" id="qu3" name="Cars" mode="select" language="SQL" db="db1"> 
+            <QueryText xml:space="preserve">SELECT * 
+FROM skuska.cars
+WHERE (111.111 *
+    DEGREES(ACOS(LEAST(1.0, COS(RADIANS(latitude))
+         * COS(RADIANS((:latitude)))
+         * COS(RADIANS(longitude - (:longitude)))
+         + SIN(RADIANS(latitude))
+         * SIN(RADIANS((:latitude))))))) &lt; 0.2;</QueryText>  
+            <QueryInput id="qi3" name="latitude" required="true" type="float"/>  
+            <QueryInput id="qi4" name="longitude" required="true" type="float"/>  
+            <QueryOutput id="qo4" name="oid"/>  
+            <QueryOutput id="qo5" name="latitude"/>  
+            <QueryOutput id="qo6" name="longitude"/> 
+          </QueryUnit> 
+        </ContentUnits>  
+        <layout:Grid containerType="grid"> 
+          <layout:Row> 
+            <layout:Cell colspan="12"> 
+              <layout:Unit unitId="qu3"/> 
+            </layout:Cell>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/>  
+            <layout:Cell/> 
+          </layout:Row> 
+        </layout:Grid> 
+      </Page> 
+    </SiteView> 
+  </WebModel> 
+</WebProject>

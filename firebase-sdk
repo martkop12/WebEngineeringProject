@@ -1,0 +1,20 @@
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAbB_Z-BdN0Rn8SYZCVgBKf6z6-zZlcsT8",
+    authDomain: "spws-authentication.firebaseapp.com",
+    databaseURL: "https://spws-authentication.firebaseio.com",
+    projectId: "spws-authentication",
+    storageBucket: "spws-authentication.appspot.com",
+    messagingSenderId: "144417189463",
+    appId: "1:144417189463:web:e5d6272161b11d4fa2bd12"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>

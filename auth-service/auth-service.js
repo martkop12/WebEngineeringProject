@@ -24,6 +24,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
+const db = firebase.firestore();
 
 // Function to check if the user is logged in the system of not.
 
@@ -39,6 +40,9 @@ auth.onAuthStateChanged(user => {
 async function createUser(email, password){
     auth.createUserWithEmailAndPassword(email, password).then(cred => {
         console.log('User created on: ',cred.user.email);
+        let name = "unknown"
+        db.collection('users').doc(cred.user.uid).set({
+        name: name});
     })
 }
 // Function to logout the user in the firebase database.
@@ -59,3 +63,5 @@ async function loginUser(email,password){
             console.log(err.code);
         })
 }
+// add here the user data that you want to keep in the database
+// the cred.user.id link the same id for the user in the auth database and in the users database

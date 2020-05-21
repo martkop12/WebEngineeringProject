@@ -19,7 +19,7 @@ var firebaseConfig = {
     databaseURL: "https://spws-authentication.firebaseio.com",
     projectId: "spws-authentication",
     appId: "1:144417189463:web:e5d6272161b11d4fa2bd12"
-  };
+};
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
@@ -28,28 +28,25 @@ const db = firebase.firestore();
 
 // Function to check if the user is logged in the system of not.
 
-auth.onAuthStateChanged(user => {
-    if (user) {
-        console.log('User logged in: ', user.email);
-    }else{
-        console.log('user logged out');
-    }
-})
+
 
 // Function to add a new User in the frebase database.
-async function createUser(email, password){
-    auth.createUserWithEmailAndPassword(email, password).then(cred => {
+async function createNewUser(name, email, password){
+    auth.createUserWithEmailAndPassword(email, password)
+    .then(cred => {
         console.log('User created on: ',cred.user.email);
-        let name = "unknown"
+        // add here the user data that you want to keep in the database
+        // the cred.user.id link the same id for the user in the auth database and in the users database
         db.collection('users').doc(cred.user.uid).set({
-        name: name});
+        name: name})
+        .then(response => {return response;})
+        .catch(err => {return err;})
     })
+    .catch(err => {return err;})
 }
 // Function to logout the user in the firebase database.
 async function logoutUser(){
     auth.signOut().then((status)=>{
-        console.log(status);
-        return true;
     })
 }
 // Function to login a new user in the firebase database.
@@ -57,11 +54,9 @@ async function loginUser(email,password){
     auth.signInWithEmailAndPassword(email,password)
         .then(cred => {
             console.log(cred.user);
-            return true;
         })
         .catch(err => {
             console.log(err.code);
         })
 }
-// add here the user data that you want to keep in the database
-// the cred.user.id link the same id for the user in the auth database and in the users database
+

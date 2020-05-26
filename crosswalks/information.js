@@ -1,11 +1,10 @@
 const cote = require('cote');
 const admin = require('firebase-admin');
-const serviceAccount = require('./firebaseAccountKey.json');
+const serviceAccount = require('../firebaseAccountKey.json');
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount)
 });
-
 
 const clientInformationReceiver = new cote.Responder({
   name: "receiving and storing information about client and pedestrians - responder",

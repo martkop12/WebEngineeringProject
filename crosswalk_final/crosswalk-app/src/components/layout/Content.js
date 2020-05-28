@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import User from "../../client/User"
+import User from "../User"
 
 const Content = () => {
   return (

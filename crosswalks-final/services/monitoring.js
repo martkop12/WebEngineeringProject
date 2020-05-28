@@ -26,7 +26,8 @@ const notifyCarRequester = new cote.Requester({
 // receive information from client location and pede/car
 clientInformationReceiver.on('send_client_info', (req, cb) => {
   const clientInformation = req.user;
-  const userCrosswalks = req.crosswalks; //IDs of crosswalks 
+  const userCrosswalks = typeof req.crosswalks !== 'undefined' ? req.crosswalks : []; //IDs of crosswalks 
+
 
   // find every crosswalk in user location (new / old)
   let getCrosswalks = db.collection('monitor').get()

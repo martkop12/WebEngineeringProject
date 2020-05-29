@@ -4,10 +4,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
+// import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-import { firebase } from "../../firebase";
+// import { firebase } from "../../firebase";
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -34,7 +34,7 @@ export default function Header({ title }) {
     <React.Fragment>
       <Toolbar className={classes.toolbar} color="185BDC">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <Button size="small">Domov</Button>
+          <Button size="small">Home</Button>
         </Link>
         <Typography
           component="h2"
@@ -51,10 +51,10 @@ export default function Header({ title }) {
         </IconButton> */}
         <Button
           variant="outlined"
-          onClick={() => firebase.auth().signOut()}
+          onClick={() =>console.log("odhlas")}
           size="small"
         >
-          Odhlásiť sa!
+         Sign In
         </Button>
       </Toolbar>
     </React.Fragment>

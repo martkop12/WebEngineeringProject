@@ -62,7 +62,7 @@ const Footer = () => {
         color="textSecondary"
         component="p"
       >
-        Brutalny footer!
+        Nice footer!
       </Typography>
       <Copyright />
     </footer>

@@ -24,11 +24,10 @@ const notifyCarRequester = new cote.Requester({
 });
 
 // receive information from client location and pede/car
-clientInformationReceiver.on('send_client_info', (req, cb) => {
+clientInformationReceiver.on('send_client_info', async (req, cb) => {
   const clientInformation = req.user;
-  const userCrosswalks = typeof req.crosswalks !== 'undefined' ? req.crosswalks : []; //IDs of crosswalks 
 
-  // find every crosswalk in user location (new / old)
+  // fetch every crosswalk
   let getCrosswalks = db.collection('monitor').get()
     .then(snapshot => {
       if (snapshot.empty) {
@@ -36,74 +35,54 @@ clientInformationReceiver.on('send_client_info', (req, cb) => {
         return;
       }
 
-      // if crosswalk is not in user's crosswalk array then append to them
-      snapshot.forEach(doc => {
-        if (distanceBetweenTwoLocations(doc.data().location, clientInformation.location) < 0.1) {
-          if (!userCrosswalks.includes(doc.id)) {
-            userCrosswalks.push(doc.id)
+      // for each crosswalk
+      snapshot.forEach(crosswalk => { 
+        const crosswalkData = crosswalk.data();
+
+        // if client is pedestrian
+        if (clientInformation.info === 'pedestrian'){
+          // if pedestrian is already in crosswalk pedestrians array
+          if (crosswalkData.pedestrians.includes(clientInformation.id.toString())){
+            // if client leave the crosswalk area then remove it from crosswalk pedestrians array
+            if (!distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
+              let updateDoc = db.collection('monitor').doc(crosswalk.id.toString()).update({
+                pedestrians: admin.firestore.FieldValue.arrayRemove(clientInformation.id.toString())
+              })
+            }
+          } else {
+            // if pedestrian is not in crosswalk pedetrians array and he is in crosswalk array than push him to the pedestrians array
+            if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
+              let updateDoc = db.collection('monitor').doc(crosswalk.id.toString()).update({
+                pedestrians: admin.firestore.FieldValue.arrayUnion(clientInformation.id.toString())
+              })
+            }
           }
         }
-      });
-
-      // monitor state for each crosswalk retrieved from user and new ones
-      (async function checkEveryCrosswalk() {
-        try {
-          await Promise.all(userCrosswalks.map((crosswalkID) => {
-            return db.collection('monitor').doc(crosswalkID).get()
-              .then(crosswalk => {
-                const currCrosswalk = crosswalk.data();
-                // check if user is in distance of crosswalk
-
-                if (distanceBetweenTwoLocations(currCrosswalk.location, clientInformation.location) < 0.1) {
-                  // if client is pedestrian then append him to the pedestrians array
-                  if (clientInformation.info == "pedestrian") {
-                    let updateDoc = db.collection('monitor').doc(crosswalkID.toString()).update({
-                      pedestrians: admin.firestore.FieldValue.arrayUnion(clientInformation.id.toString())
-                    })
-                  };
-                  // send information to notify service if client is the car
-                  if (clientInformation.info == "car") {
-                    notifyCarRequester.send({
-                      type: 'crosswalk_information',
-                      crosswalk: currCrosswalk
-                    })
-                  };
-
-                  // send information about client to information service, where the data will be stored
-                  var clientData = clientInformation;
-                  clientData['time'] = new Date();
-                  clientData['crosswalkID'] = crosswalkID;
-
-                  const dataRequest = {
-                    type: 'notify',
-                    data: clientData
-                  };
-
-                  informationRequester.send(dataRequest);
-                  // if pedestrian is not in range then remove him from pedestrians array
-                } else {
-                  console.log('som tu ')
-                  if (clientInformation.info == "pedestrian") {
-                    let updateDoc = db.collection('monitor').doc(crosswalkID.toString()).update({
-                      pedestrians: admin.firestore.FieldValue.arrayRemove(clientInformation.id.toString())
-                    });
-                  }
-
-                  // remove crosswalk from user's crosswalks
-                  const removeCrosswalkIndex = userCrosswalks.indexOf(crosswalkID.toString());
-
-                  if (removeCrosswalkIndex > -1) {
-                    userCrosswalks.splice(removeCrosswalkIndex, 1);
-                  }
-                }
-              });
-          }));
-          // return crosswalks, which are in client area
-          cb(null, userCrosswalks);
-        } catch (error) {
-          console.log(error);
+      
+        // if client is car then send clientiformation to notification service
+        if (clientInformation.info === 'car'){
+          if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
+            notifyCarRequester.send({
+              type: 'crosswalk_information',
+              crosswalk: crosswalkData
+            })
+          }
         }
-      })();
+
+        // send information to information service to store location if client is in the crosswlak distance
+        if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
+          var clientData = clientInformation;
+          clientData['time'] = new Date();
+          clientData['crosswalkID'] = crosswalkData.id;
+
+          // send information to information service
+          const dataRequest = {
+            type: 'notify',
+            data: clientData
+          };
+          informationRequester.send(dataRequest);
+        }
+      });
     });
 });
 

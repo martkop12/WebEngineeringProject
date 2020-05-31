@@ -14,6 +14,7 @@ function User() {
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("notifyInformation", data => {
+      console.log(data);
       setCrosswalks(data);
     });
   },[]);

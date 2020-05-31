@@ -73,7 +73,7 @@ clientInformationReceiver.on('send_client_info', async (req, cb) => {
         if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
           var clientData = clientInformation;
           clientData['time'] = new Date();
-          clientData['crosswalkID'] = crosswalkData.id;
+          clientData['crosswalkID'] = crosswalk.id;
 
           // send information to information service
           const dataRequest = {

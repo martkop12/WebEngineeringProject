@@ -1,10 +1,18 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
 import Header from "./layout/Header";
-import ReactDOM from 'react-dom' 
+import ReactDOM from 'react-dom' ;
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Checkbox from '@material-ui/core/Checkbox';
+import Avatar from '@material-ui/core/Avatar';
+import CarsTable from './CarsTable'
 
 import { useParams } from "react-router-dom";
 
@@ -14,6 +22,17 @@ import { useParams } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+  },
+  table: {
+    // minWidth: 400,
+  },
+  list: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+  cars: {
+      paddingTop: theme.spacing(4),
   },
   paper: {
     padding: theme.spacing(2),
@@ -59,6 +78,20 @@ export default function Crosswalk() {
   const circles = document.getElementsByClassName(classes.trafficCircle)
   let activeLight = 2;
   let currentLight = circles[activeLight];
+  const [checked, setChecked] = React.useState([1]);
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
 
 
     setInterval(() => {
@@ -140,7 +173,7 @@ export default function Crosswalk() {
                 <Typography variant= "h2" color="textSecondary">
                     Cars
                 </Typography>
-                <Grid container spacing={3}>
+                <Grid className={classes.cars} container spacing={3}>
                     <Grid item xs={2}>
                         <div className={classes.trafficLightContainer}>
                             <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
@@ -149,6 +182,36 @@ export default function Crosswalk() {
                         </div>
                     </Grid>
                     <Grid item xs>
+                        {/* <Typography className={classes.carsNear} variant= "h5" color="textSecondary">
+                            Cars near
+                        </Typography>
+                        <List dense className={classes.list}>
+                            {[0, 1, 2, 3].map((value) => {
+                                const labelId = `checkbox-list-secondary-label-${value}`;
+                                return (
+                                <ListItem key={value} button>
+                                    <ListItemAvatar>
+                                    <Avatar
+                                        alt={`Avatar n°${value + 1}`}
+                                        src={`/static/images/avatar/${value + 1}.jpg`}
+                                    />
+                                    </ListItemAvatar>
+                                    <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
+                                    <ListItemSecondaryAction>
+                                    <Checkbox
+                                        edge="end"
+                                        onChange={handleToggle(value)}
+                                        checked={checked.indexOf(value) !== -1}
+                                        inputProps={{ 'aria-labelledby': labelId }}
+                                    />
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                                );
+                            })}
+                        </List> */}
+
+                        <CarsTable/>
+                        
                     <Paper className={classes.paper}>xs</Paper>
                     </Grid>
                 </Grid>

@@ -167,13 +167,13 @@ const TripDetail = () => {
           maxWidth="md"
         >
         <Link to="/crosswalks" style={{ textDecoration: "none" }}>
-            <Button className={classes.startMonitoringButton} size="big">
+            <Button className={classes.startMonitoringButton} size="large">
                 Start monitoring!
             </Button>
         </Link>
     
         <Link to="/user" style={{ textDecoration: "none" }}>
-            <Button className={classes.userButton} size="big">
+            <Button className={classes.userButton} size="large">
                 User
             </Button>
         </Link>

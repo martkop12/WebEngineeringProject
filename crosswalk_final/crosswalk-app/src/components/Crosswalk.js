@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export default function Crosswalk() {
+export default function Crosswalk(props) {
   const classes = useStyles();
   const circles = document.getElementsByClassName(classes.trafficCircle)
   let activeLight = 2;
@@ -94,9 +94,9 @@ export default function Crosswalk() {
   };
 
 
-    setInterval(() => {
-        changeLight();
-    }, 5000);
+    // setInterval(() => {
+    //     changeLight();
+    // }, 5000);
 
     function setInitialLight(){
         activeLight = 0;
@@ -105,28 +105,30 @@ export default function Crosswalk() {
         currentLight.style.boxShadow=(currentLight.getAttribute('boxShadow'))
     }
 
-    function changeLight() {
-        console.log(circles);
-
-        circles[activeLight].style.backgroundColor= "rgba(0, 0, 0, 0.3)";
-        circles[activeLight].style.boxShadow= "0 0 0 0 ";
-        // circles[activeLight].className = 'circle';
-        activeLight++;
+//     function changeLight() {
+//         console.log(circles);
+//         if(circles[activeLight]){
+//             circles[activeLight].style.backgroundColor= "rgba(0, 0, 0, 0.3)";
+//             circles[activeLight].style.boxShadow= "0 0 0 0 ";
+//             // circles[activeLight].className = 'circle';
+//             activeLight++;
+            
+//             if(activeLight > 2) {
+//                 activeLight = 0;
+//             }
         
-        if(activeLight > 2) {
-            activeLight = 0;
-        }
-	
-    currentLight = circles[activeLight];
-    console.log(currentLight.style.backgroundColor);
-    // currentLight.style = {
-    //     bv
-    // }
-
-    currentLight.style.backgroundColor=(currentLight.getAttribute('color'));
-    currentLight.style.boxShadow=(currentLight.getAttribute('boxShadow'));
-
-}
+//         currentLight = circles[activeLight];
+//         console.log(currentLight.style.backgroundColor);
+//         // currentLight.style = {
+//         //     bv
+//         // }
+    
+//         currentLight.style.backgroundColor=(currentLight.getAttribute('color'));
+//         currentLight.style.boxShadow=(currentLight.getAttribute('boxShadow'));
+    
+//         }
+       
+// }
 
 
   return (     
@@ -175,7 +177,7 @@ export default function Crosswalk() {
                 </Typography>
                 <Grid className={classes.cars} container spacing={3}>
                     <Grid item xs={2}>
-                        <div className={classes.trafficLightContainer}>
+                        <div className={classes.trafficLightContainer} >
                             <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
                             <div className={classes.trafficCircle} color="#f1c40f"  boxShadow="0 0 20px 5px #f1c40f"></div>
                             <div className={classes.trafficCircle} color="#2ecc71"  boxShadow="0 0 20px 5px #2ecc71"></div>

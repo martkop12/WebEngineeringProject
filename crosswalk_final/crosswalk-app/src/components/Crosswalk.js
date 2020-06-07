@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
   cars: {
       paddingTop: theme.spacing(4),
   },
+  pedestrians: {
+    paddingTop: theme.spacing(4),
+},
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
@@ -212,7 +215,8 @@ export default function Crosswalk(props) {
                             })}
                         </List> */}
 
-                        <CarsTable/>
+                        <CarsTable
+                        props='cars'/>
                         
                     <Paper className={classes.paper}>xs</Paper>
                     </Grid>
@@ -226,7 +230,7 @@ export default function Crosswalk(props) {
                 <Typography variant= "h2" color="textSecondary">
                     Pedestrians
                 </Typography>
-                <Grid container spacing={3}>
+                <Grid className={classes.pedestrians} container spacing={3}>
                     <Grid item xs={2}>
                         <div className={classes.trafficLightContainer}>
                             <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
@@ -235,6 +239,7 @@ export default function Crosswalk(props) {
                         </div>
                     </Grid>
                     <Grid item xs>
+                    <CarsTable props='pedestrians'/>
                     <Paper className={classes.paper}>xs</Paper>
                     </Grid>
                 </Grid>

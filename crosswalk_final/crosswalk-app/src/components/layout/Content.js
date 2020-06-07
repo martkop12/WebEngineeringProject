@@ -4,6 +4,8 @@ import User from "../User"
 import Home from "../Home"
 import Crosswalks from "../Crosswalks"
 import Crosswalk from "../Crosswalk"
+import SignIn from "../SignIn"
+import SignUp from "../SignUp"
 
 
 const Content = () => {
@@ -13,6 +15,8 @@ const Content = () => {
       <Route exact path="/user" component={User} />
       <Route exact path="/crosswalks" component={Crosswalks} />
       <Route exact path="/crosswalks/:crosswalkId" component={Crosswalk} />
+      <Route exact path="/signin" component={SignIn} />
+      <Route exact path="/signup" component={SignUp} />
     </div>
   );
 };

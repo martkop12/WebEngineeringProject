@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 // import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-// import { firebase } from "../../firebase";
+import { firebase } from "../../firebase";
 
 const useStyles = makeStyles(theme => ({
   toolbar: {
@@ -51,10 +51,10 @@ export default function Header({ title }) {
         </IconButton> */}
         <Button
           variant="outlined"
-          onClick={() =>console.log("odhlas")}
+          onClick={() => firebase.auth().signOut()}
           size="small"
         >
-         Sign In
+         Log out
         </Button>
       </Toolbar>
     </React.Fragment>

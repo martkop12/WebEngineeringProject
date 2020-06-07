@@ -12,21 +12,9 @@ import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import * as firebase from "firebase/app";
 import Container from "@material-ui/core/Container";
+import { firebase } from "../firebase";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -51,34 +39,18 @@ const useStyles = makeStyles(theme => ({
 const SignUp = ({ history }) => {
   const classes = useStyles();
 
-  const handleSignUp = useCallback(
-    async event => {
-      event.preventDefault();
-      const { email, password, firstName, lastName } = event.target.elements;
-      console.log(event.target.elements);
-      console.log(firstName);
-      try {
-        await firebase
-          .auth()
-          .createUserWithEmailAndPassword(email.value, password.value)
-          .then(res => {
-            const userId = res.user.uid;
-            firebase
-              .database()
-              .ref("users/" + userId)
-              .set({
-                firstName: firstName.value,
-                lastName: lastName.value,
-                email: email.value
-              });
-          });
-        history.push("/");
-      } catch (error) {
-        alert(error);
-      }
-    },
-    [history]
-  );
+  const handleSignUp = useCallback(async event => {
+    event.preventDefault();
+    const { email, password } = event.target.elements;
+    try {
+      await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email.value, password.value);
+      history.push("/");
+    } catch (error) {
+      alert(error);
+    }
+  }, [history]);
 
   return (
     <Container component="main" maxWidth="xs">
@@ -92,36 +64,13 @@ const SignUp = ({ history }) => {
         </Typography>
         <form className={classes.form} onSubmit={handleSignUp} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="firstName"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Priezvisko"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
                 id="email"
-                label="Emailová adresa"
+                label="Email address"
                 name="email"
                 autoComplete="email"
               />
@@ -132,7 +81,7 @@ const SignUp = ({ history }) => {
                 required
                 fullWidth
                 name="password"
-                label="Heslo"
+                label="Password"
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -146,12 +95,12 @@ const SignUp = ({ history }) => {
             color="primary"
             className={classes.submit}
           >
-            Registrovať sa!
+            Register
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="/signin" variant="body2">
-                Už máš účet? Prihlás sa
+                Do you have an account? Sign in
               </Link>
             </Grid>
           </Grid>
@@ -162,4 +111,4 @@ const SignUp = ({ history }) => {
   );
 };
 
-export default SignUp;
+export default withRouter(SignUp);

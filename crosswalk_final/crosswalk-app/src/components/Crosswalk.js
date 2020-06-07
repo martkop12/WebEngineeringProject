@@ -4,7 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
 import Header from "./layout/Header";
-import ReactDOM from 'react-dom' ;
+import ReactDOM from 'react-dom';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
@@ -32,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   cars: {
-      paddingTop: theme.spacing(4),
+    paddingTop: theme.spacing(4),
   },
   pedestrians: {
     paddingTop: theme.spacing(4),
-},
+  },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
@@ -64,16 +64,16 @@ const useStyles = makeStyles((theme) => ({
     height: "200px",
     width: "70px",
   },
-  trafficCircle:{
-      backgroundColor: "rgba(0, 0, 0, 0.3)",
-      borderRadius: "100%",
-      position: "relative",
-      height: "40px",
-      width: "40px",
+  trafficCircle: {
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    borderRadius: "100%",
+    position: "relative",
+    height: "40px",
+    width: "40px",
 
   },
- 
-  
+
+
 }));
 
 export default function Crosswalk(props) {
@@ -97,97 +97,97 @@ export default function Crosswalk(props) {
   };
 
 
-    // setInterval(() => {
-    //     changeLight();
-    // }, 5000);
+  // setInterval(() => {
+  //     changeLight();
+  // }, 5000);
 
-    function setInitialLight(){
-        activeLight = 0;
-        currentLight = circles[0]
-        currentLight.style.backgroundColor=(currentLight.getAttribute('color'));
-        currentLight.style.boxShadow=(currentLight.getAttribute('boxShadow'))
-    }
+  function setInitialLight() {
+    activeLight = 0;
+    currentLight = circles[0]
+    currentLight.style.backgroundColor = (currentLight.getAttribute('color'));
+    currentLight.style.boxShadow = (currentLight.getAttribute('boxShadow'))
+  }
 
-//     function changeLight() {
-//         console.log(circles);
-//         if(circles[activeLight]){
-//             circles[activeLight].style.backgroundColor= "rgba(0, 0, 0, 0.3)";
-//             circles[activeLight].style.boxShadow= "0 0 0 0 ";
-//             // circles[activeLight].className = 'circle';
-//             activeLight++;
-            
-//             if(activeLight > 2) {
-//                 activeLight = 0;
-//             }
-        
-//         currentLight = circles[activeLight];
-//         console.log(currentLight.style.backgroundColor);
-//         // currentLight.style = {
-//         //     bv
-//         // }
-    
-//         currentLight.style.backgroundColor=(currentLight.getAttribute('color'));
-//         currentLight.style.boxShadow=(currentLight.getAttribute('boxShadow'));
-    
-//         }
-       
-// }
+  //     function changeLight() {
+  //         console.log(circles);
+  //         if(circles[activeLight]){
+  //             circles[activeLight].style.backgroundColor= "rgba(0, 0, 0, 0.3)";
+  //             circles[activeLight].style.boxShadow= "0 0 0 0 ";
+  //             // circles[activeLight].className = 'circle';
+  //             activeLight++;
+
+  //             if(activeLight > 2) {
+  //                 activeLight = 0;
+  //             }
+
+  //         currentLight = circles[activeLight];
+  //         console.log(currentLight.style.backgroundColor);
+  //         // currentLight.style = {
+  //         //     bv
+  //         // }
+
+  //         currentLight.style.backgroundColor=(currentLight.getAttribute('color'));
+  //         currentLight.style.boxShadow=(currentLight.getAttribute('boxShadow'));
+
+  //         }
+
+  // }
 
 
-  return (     
+  return (
     <div className={classes.root}>
-    <Header />
-        <Paper
-                className={classes.mainFeaturedPost}
-                style={{ backgroundImage: `url(https://st3.depositphotos.com/16229314/19138/v/1600/depositphotos_191385946-stock-illustration-street-crossroad-vector-cartoon-illustration.jpg)` }}
-            >
-                {/* Increase the priority of the hero background image */}
-                {<img style={{ display: "none" }} src="https://st3.depositphotos.com/16229314/19138/v/1600/depositphotos_191385946-stock-illustration-street-crossroad-vector-cartoon-illustration.jpg" alt="img" />}
-                <div className={classes.overlay} />
+      <Header />
+      <Paper
+        className={classes.mainFeaturedPost}
+        style={{ backgroundImage: `url(https://st3.depositphotos.com/16229314/19138/v/1600/depositphotos_191385946-stock-illustration-street-crossroad-vector-cartoon-illustration.jpg)` }}
+      >
+        {/* Increase the priority of the hero background image */}
+        {<img style={{ display: "none" }} src="https://st3.depositphotos.com/16229314/19138/v/1600/depositphotos_191385946-stock-illustration-street-crossroad-vector-cartoon-illustration.jpg" alt="img" />}
+        <div className={classes.overlay} />
 
-                <Grid container>
-                <Grid item md={12}>
-                    <div className={classes.mainFeaturedPostContent}>
-                    <Typography
-                        component="h1"
-                        variant="h3"
-                        align="center"
-                        color="textPrimary"
-                        // className={classes.typography}
-                        gutterBottom
-                    >
-                        Crosswalk
+        <Grid container>
+          <Grid item md={12}>
+            <div className={classes.mainFeaturedPostContent}>
+              <Typography
+                component="h1"
+                variant="h3"
+                align="center"
+                color="textPrimary"
+                // className={classes.typography}
+                gutterBottom
+              >
+                Crosswalk
                     </Typography>
-                   
-                    <Typography color="inherit" paragraph>
-                        {/* {moment("12.06.1998").format("DD/MM/YYYY")} -{" "}
+
+              <Typography color="inherit" paragraph>
+                {/* {moment("12.06.1998").format("DD/MM/YYYY")} -{" "}
                         {moment("12.06.1998").format("DD/MM/YYYY")} */}
 
-                        {/* //  {"12.06.1998"} -{" "}
+                {/* //  {"12.06.1998"} -{" "}
                         // {"12.06.1998"} */}
-                    </Typography>
-                    </div>
-                </Grid>
-                </Grid>
-            </Paper>
+              </Typography>
+            </div>
+          </Grid>
+        </Grid>
+      </Paper>
 
-      <div style={{ padding: 40 }}>                
-      <Grid container spacing={3}>
-        <Grid item xs>
+      <div style={{ padding: 40 }}>
+        <Grid container spacing={3}>
+          <Grid item xs>
             <Paper className={classes.paper}>
-                <Typography variant= "h2" color="textSecondary">
-                    Cars
+              <Typography variant="h2" color="textSecondary">
+                Cars
                 </Typography>
-                <Grid className={classes.cars} container spacing={3}>
-                    <Grid item xs={2}>
-                        <div className={classes.trafficLightContainer} >
-                            <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
-                            <div className={classes.trafficCircle} color="#f1c40f"  boxShadow="0 0 20px 5px #f1c40f"></div>
-                            <div className={classes.trafficCircle} color="#2ecc71"  boxShadow="0 0 20px 5px #2ecc71"></div>
-                        </div>
-                    </Grid>
-                    <Grid item xs>
-                        {/* <Typography className={classes.carsNear} variant= "h5" color="textSecondary">
+              <Grid className={classes.cars} container spacing={3}>
+                <Grid item xs={2}>
+                  <div className={classes.trafficLightContainer} >
+                    <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
+                    <div className={classes.trafficCircle} color="#f1c40f" boxShadow="0 0 20px 5px #f1c40f"></div>
+                    <div className={classes.trafficCircle} color="#2ecc71" boxShadow="0 0 20px 5px #2ecc71"></div>
+                  </div>
+                </Grid>
+                <Grid item xs>
+                  {/* <Typography className={classes.carsNear} variant= "h5" color="textSecondary">
                             Cars near
                         </Typography>
                         <List dense className={classes.list}>
@@ -215,39 +215,39 @@ export default function Crosswalk(props) {
                             })}
                         </List> */}
 
-                        <CarsTable
-                        props='cars'/>
-                        
-                    <Paper className={classes.paper}>xs</Paper>
-                    </Grid>
+                  <CarsTable
+                    props='cars' />
+
+                  <Paper className={classes.paper}>xs</Paper>
                 </Grid>
-                
-                
+              </Grid>
+
+
             </Paper>
-        </Grid>
-        <Grid item xs>
+          </Grid>
+          <Grid item xs>
             <Paper className={classes.paper}>
-                <Typography variant= "h2" color="textSecondary">
-                    Pedestrians
+              <Typography variant="h2" color="textSecondary">
+                Pedestrians
                 </Typography>
-                <Grid className={classes.pedestrians} container spacing={3}>
-                    <Grid item xs={2}>
-                        <div className={classes.trafficLightContainer}>
-                            <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
-                            <div className={classes.trafficCircle} color="#f1c40f"  boxShadow="0 0 20px 5px #f1c40f"></div>
-                            <div className={classes.trafficCircle} color="#2ecc71"  boxShadow="0 0 20px 5px #2ecc71"></div>
-                        </div>
-                    </Grid>
-                    <Grid item xs>
-                    <CarsTable props='pedestrians'/>
-                    <Paper className={classes.paper}>xs</Paper>
-                    </Grid>
+              <Grid className={classes.pedestrians} container spacing={3}>
+                <Grid item xs={2}>
+                  <div className={classes.trafficLightContainer}>
+                    <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
+                    <div className={classes.trafficCircle} color="#f1c40f" boxShadow="0 0 20px 5px #f1c40f"></div>
+                    <div className={classes.trafficCircle} color="#2ecc71" boxShadow="0 0 20px 5px #2ecc71"></div>
+                  </div>
                 </Grid>
+                <Grid item xs>
+                  <CarsTable props='pedestrians' />
+                  <Paper className={classes.paper}>xs</Paper>
+                </Grid>
+              </Grid>
             </Paper>
+          </Grid>
+
         </Grid>
-        
-      </Grid>
-      
+
       </div>
     </div>
   );

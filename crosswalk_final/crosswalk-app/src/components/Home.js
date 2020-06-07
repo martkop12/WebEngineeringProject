@@ -102,85 +102,82 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("md")]: {
       padding: theme.spacing(6),
       paddingRight: 0,
-     
+
     }
   },
- 
+
 }));
 
 const TripDetail = () => {
   const classes = useStyles();
-  const { tripId } = useParams();
-//   const { trip } = useTrip(tripId);
-  const { entries, isFetching } = 0;
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Header />
       <main>
-  
-          <Paper
-            className={classes.mainFeaturedPost}
-            style={{ backgroundImage: `url(https://www.lightguardsystems.com/wp-content/uploads/2015/01/Solar-wireless-RRFB-crosswalk-graphic.jpg)` }}
-          >
-            {/* Increase the priority of the hero background image */}
-            {<img style={{ display: "none" }} src="https://www.lightguardsystems.com/wp-content/uploads/2015/01/Solar-wireless-RRFB-crosswalk-graphic.jpg" alt="img" />}
-            <div className={classes.overlay} />
 
-            <Grid container>
-              <Grid item md={9}>
-                <div className={classes.mainFeaturedPostContent}>
-                  <Typography
-                    component="h1"
-                    variant="h3"
-                    color="inherit"
-                    // className={classes.typography}
-                    gutterBottom
-                  >
-                    SPWS
+        <Paper
+          className={classes.mainFeaturedPost}
+          style={{ backgroundImage: `url(https://www.lightguardsystems.com/wp-content/uploads/2015/01/Solar-wireless-RRFB-crosswalk-graphic.jpg)` }}
+        >
+          {/* Increase the priority of the hero background image */}
+          {<img style={{ display: "none" }} src="https://www.lightguardsystems.com/wp-content/uploads/2015/01/Solar-wireless-RRFB-crosswalk-graphic.jpg" alt="img" />}
+          <div className={classes.overlay} />
+
+          <Grid container>
+            <Grid item md={9}>
+              <div className={classes.mainFeaturedPostContent}>
+                <Typography
+                  component="h1"
+                  variant="h3"
+                  color="inherit"
+                  // className={classes.typography}
+                  gutterBottom
+                >
+                  SPWS
                   </Typography>
-                  <Typography variant="h5" color="inherit" paragraph>
-                    Welcome to our sidewalk monitoring system!
+                <Typography variant="h5" color="inherit" paragraph>
+                  Welcome to our sidewalk monitoring system!
                   </Typography>
-                  <Typography color="inherit" paragraph>
-                    {/* {moment("12.06.1998").format("DD/MM/YYYY")} -{" "}
+                <Typography color="inherit" paragraph>
+                  {/* {moment("12.06.1998").format("DD/MM/YYYY")} -{" "}
                     {moment("12.06.1998").format("DD/MM/YYYY")} */}
 
-                    {/* //  {"12.06.1998"} -{" "}
+                  {/* //  {"12.06.1998"} -{" "}
                     // {"12.06.1998"} */}
-                  </Typography>
-                </div>
-              </Grid>
+                </Typography>
+              </div>
             </Grid>
-          </Paper>
+          </Grid>
+        </Paper>
         <Container
           className={classes.cardGrid}
           style={
-              { 
-                  height: "80vh",
-                  alignContent:"center" 
-            
+            {
+              height: "80vh",
+              alignContent: "center"
+
             }
-            
-            }
+
+          }
           maxWidth="md"
         >
-        <Link to="/crosswalks" style={{ textDecoration: "none" }}>
+          <Link to="/crosswalks" style={{ textDecoration: "none" }}>
             <Button className={classes.startMonitoringButton} size="large">
-                Start monitoring!
+              Start monitoring!
             </Button>
-        </Link>
-    
-        <Link to="/user" style={{ textDecoration: "none" }}>
+          </Link>
+
+          <Link to="/user" style={{ textDecoration: "none" }}>
             <Button className={classes.userButton} size="large">
-                User
+              User
             </Button>
-        </Link>
-        
+          </Link>
+
         </Container>
       </main>
-      <Footer/>
+      <Footer />
     </React.Fragment>
   );
 };

@@ -4,13 +4,13 @@ import "firebase/database";
 import "firebase/auth";
 
 const firebaseConfig = firebase.initializeApp({
-  apiKey: "AIzaSyAa589G-K1Y2PmIthUWRGkugmrtJo2tDH8",
-  authDomain: "timovy-projekt-2019.firebaseapp.com",
-  databaseURL: "https://timovy-projekt-2019.firebaseio.com",
-  projectId: "timovy-projekt-2019",
-  storageBucket: "timovy-projekt-2019.appspot.com",
-  messagingSenderId: "675342843605",
-  appId: "1:675342843605:web:43b5c4f568f7896b522c5c"
+  apiKey: "AIzaSyDWiBNvI4SpLDMydiaaDFN3eNMBjmJrBQE",
+  authDomain: "micro-skuska.firebaseapp.com",
+  databaseURL: "https://micro-skuska.firebaseio.com",
+  projectId: "micro-skuska",
+  storageBucket: "micro-skuska.appspot.com",
+  messagingSenderId: "585713820018",
+  appId: "1:585713820018:web:4070905e2d6a8bb80ebdeb"
 });
 
 export { firebaseConfig as firebase };

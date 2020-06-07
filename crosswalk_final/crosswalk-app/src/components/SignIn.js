@@ -1,9 +1,7 @@
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,12 +10,15 @@ import Typography from "@material-ui/core/Typography";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import * as firebase from "firebase/app";
 import React, { useCallback, useContext, useState } from "react";
-import GoogleLogin from "react-google-login";
 import { Redirect, withRouter } from "react-router";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { AuthContext } from "../Auth";
 import { firebase as localFirebase } from "../firebase";
+
+// import React, { useCallback, useContext } from "react";
+// import { withRouter, Redirect } from "react-router";
+// import { firebase } from "../firebase.js";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -41,79 +42,33 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn = ({ history }) => {
   const classes = useStyles();
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = useCallback(
     async event => {
-      setIsLoading(true);
       event.preventDefault();
       const { email, password } = event.target.elements;
       try {
         await firebase
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
-        setIsLoading(true);
         history.push("/");
       } catch (error) {
-        setIsLoading(true);
         alert(error);
       }
     },
     [history]
   );
 
-  const handleGoogleLogin = response => {
-    if (response) {
-      const { givenName, familyName } = response.profileObj;
-
-      const credential = firebase.auth.GoogleAuthProvider.credential(
-        response.tokenId,
-        response.accessToken
-      );
-      firebase.auth().signInWithCredential(credential);
-      setIsLoading(false);
-
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          const { uid, photoURL, email } = user;
-          localFirebase
-            .database()
-            .ref(`users/${uid}`)
-            .once("value", snapshot => {
-              if (!snapshot.exists()) {
-                firebase
-                  .database()
-                  .ref("users/" + uid)
-                  .set({
-                    firstName: givenName,
-                    lastName: familyName,
-                    email: email,
-                    imageUrl: photoURL
-                  });
-              } else {
-                console.log("User has been already registered!");
-              }
-            });
-        }
-      });
-    }
-  };
-
-  const handleGoogleError = response => {
-    setIsLoading(false);
-    console.log(response);
-  };
-
   const { currentUser } = useContext(AuthContext);
 
   if (currentUser) {
+    console.log(currentUser)
+
     return <Redirect to="/" />;
   }
 
   return (
     <>
-      {isLoading && <LinearProgress />}
-
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
@@ -121,7 +76,7 @@ const SignIn = ({ history }) => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Prihlásiť sa
+            Sign In
           </Typography>
           <form className={classes.form} onSubmit={handleLogin} noValidate>
             <TextField
@@ -130,7 +85,7 @@ const SignIn = ({ history }) => {
               required
               fullWidth
               id="email"
-              label="Emailová adresa"
+              label="Email address"
               name="email"
               type="email"
               autoComplete="email"
@@ -142,14 +97,10 @@ const SignIn = ({ history }) => {
               required
               fullWidth
               name="password"
-              label="Heslo"
+              label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Zapamätať si ma"
             />
             <Button
               type="submit"
@@ -158,37 +109,23 @@ const SignIn = ({ history }) => {
               color="primary"
               className={classes.submit}
             >
-              Prihlásiť sa
+              Sign In
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="/signup" variant="body2">
-                  {"Nemáš účet? Zaregistruj sa!"}
+                  {"Don't you have an account? Register!"}
                 </Link>
               </Grid>
               <Grid item></Grid>
             </Grid>
           </form>
         </div>
-        <Container
-          align="center"
-          style={{ paddingTop: 40 }}
-          onPress={() => {
-            console.log("dasd");
-            setIsLoading(true);
-          }}
-        >
-          <GoogleLogin
-            clientId="675342843605-eek4n9el01spgqbpu8n331mf5u3hl9mi.apps.googleusercontent.com"
-            buttonText="Login"
-            onSuccess={handleGoogleLogin}
-            onFailure={handleGoogleError}
-            cookiePolicy={"single_host_origin"}
-          />
-        </Container>
       </Container>
     </>
   );
 };
 
 export default withRouter(SignIn);
+
+

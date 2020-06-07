@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import socketIOClient from "socket.io-client";
 import '../App.css';
+import { AuthContext } from "../Auth";
 
 const ENDPOINT = "http://127.0.0.1:5000";
 
@@ -10,6 +11,7 @@ function User() {
   const [clientLatitude, setClientLatitude] = useState('');
   const [clientLongitude, setClientLongitude] = useState('');
   const [crosswalks, setCrosswalks ] = useState([]);
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
@@ -17,6 +19,7 @@ function User() {
       console.log(data);
       setCrosswalks(data);
     });
+    
   },[]);
 
   const handleSubmit = async e => {
@@ -44,12 +47,7 @@ function User() {
           <strong>Client information:</strong>
         </p>
         <label>
-          id:
-        <input
-            type="id"
-            value={clientID}
-            onChange={e => setClientID(e.target.value)}
-          />
+            id: {currentUser.uid}
         </label>
 
         <br></br>
@@ -73,7 +71,7 @@ function User() {
         <label>
           longitude:
         <input
-            type="id"
+            type="longitude"
             value={clientLongitude}
             onChange={e => setClientLongitude(e.target.value)}
           />

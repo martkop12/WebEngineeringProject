@@ -12,9 +12,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
-import CarsTable from './CarsTable'
+import CarsTable from './CarsTable';
+import { firebase } from "../firebase";
 
 import { useParams } from "react-router-dom";
+import { useCrosswalk } from '../hooks/crosswalk';
 
 
 // let { tripId, entryId } = useParams();
@@ -76,7 +78,25 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-export default function Crosswalk(props) {
+export default function Crosswalk () {
+
+  const { crosswalkId } = useParams();
+
+  firebase.firestore().collection("information").get().then((snapshot) => {
+         console.log(snapshot.docs);
+          snapshot.docs.forEach(doc => {
+              console.log(doc.data());
+            //   CrosswalkList.push({id: doc.id, ...doc.data().location})
+          })
+      });
+    
+    //   console.log(cars);
+
+
+//   console.log(crosswalkId);
+//   const { crosswalk } = useCrosswalk(crosswalkId);
+//   console.log(crosswalk);
+
   const classes = useStyles();
   const circles = document.getElementsByClassName(classes.trafficCircle)
   let activeLight = 2;

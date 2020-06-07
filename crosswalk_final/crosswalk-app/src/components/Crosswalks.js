@@ -10,12 +10,19 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CrosswalkMarker from "./CrosswalkMarker"
+import { useCrosswalks } from "../hooks/crosswalks";
+import { firebase } from "../firebase";
+
+
 import {
     withScriptjs,
     withGoogleMap,
     GoogleMap,
     Marker
   } from "react-google-maps";
+
+//   const {crosswalks, setCrosswalks} = useCrosswalks();
+
 
   function createData(uid,latitude, longitude, stateOfLight ) {
     return {uid,latitude, longitude, stateOfLight};
@@ -27,6 +34,8 @@ import {
   
 
   const MyMapComponent = withScriptjs(withGoogleMap((props) =>{
+    const {crosswalks, setCrosswalks} = useCrosswalks();
+    console.log(crosswalks)
 
     const myPosition = createData(12,48.936497, 21.911423, "green");
 
@@ -40,15 +49,15 @@ import {
         createData(7,48.936515, 21.912297, "red"),
     ]
       
-    const markers = mockedCrosswalks.map( crosswalk => 
+    const markers = crosswalks.map( crosswalk => 
                     <CrosswalkMarker
-                      key={crosswalk.uid}
+                      key={crosswalk.id}
                       location={{lat: crosswalk.latitude, lng: crosswalk.longitude}}
                     />);
                     
     return (
         <GoogleMap
-            defaultZoom={18}
+            defaultZoom={17}
             defaultCenter={{ lat: props.lat, lng: props.lng }}
         >
             {props.isMarkerShown && (
@@ -97,8 +106,15 @@ const useStyles = makeStyles(theme => ({
   
 }));
 
-const Crosswalk = () => {
+const Crosswalks = () => {
   const classes = useStyles();
+  const {crosswalks, setCrosswalks} = useCrosswalks();
+  console.log(crosswalks)
+//   firebase.firestore().collection("monitor").get().then((snapshot) => {
+//       snapshot.docs.forEach(doc => {
+//           console.log(doc.data().location)
+//       })
+//   })
 
   const mockedCrosswalks = [
     createData(1,48.935839, 21.912081,"green"),
@@ -153,11 +169,11 @@ const Crosswalk = () => {
 
           <div className={classes.root}>
                 {console.log(mockedCrosswalks)}
-                {mockedCrosswalks && (
-                    mockedCrosswalks.map(crosswalk => (
+                {crosswalks && (
+                    crosswalks.map(crosswalk => (
                         <Link to={
                             { 
-                                pathname: "/crosswalks/" + crosswalk.uid,
+                                pathname: "/crosswalks/" + crosswalk.id,
                                 // myCustomProps: crosswalk
                             }
                         }>
@@ -167,7 +183,7 @@ const Crosswalk = () => {
                                     Crosswalk
                                 </Typography>
                                 <Typography variant="h5" component="h2">
-                                    Crosswalk num. + {crosswalk.uid}
+                                    Crosswalk num. + {crosswalk.id}
                                 </Typography>
                                 <Typography variant="body2" component="p">
                                     Informarions about this crosswalk
@@ -271,4 +287,4 @@ const Crosswalk = () => {
   );
 };
 
-export default Crosswalk;
+export default Crosswalks;

@@ -9,23 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { firebase } from "../../firebase";
 
-const useStyles = makeStyles(theme => ({
-  toolbar: {
-    borderBottom: `1px solid ${theme.palette.divider}`,
-    color: "#fffff"
-  },
-  toolbarTitle: {
-    flex: 1
-  },
-  toolbarSecondary: {
-    justifyContent: "space-between",
-    overflowX: "auto"
-  },
-  toolbarLink: {
-    padding: theme.spacing(1),
-    flexShrink: 0
-  }
-}));
 
 export default function Header({ title }) {
   const classes = useStyles();
@@ -65,3 +48,21 @@ Header.propTypes = {
   sections: PropTypes.array,
   title: PropTypes.string
 };
+
+const useStyles = makeStyles(theme => ({
+  toolbar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    color: "#fffff"
+  },
+  toolbarTitle: {
+    flex: 1
+  },
+  toolbarSecondary: {
+    justifyContent: "space-between",
+    overflowX: "auto"
+  },
+  toolbarLink: {
+    padding: theme.spacing(1),
+    flexShrink: 0
+  }
+}));

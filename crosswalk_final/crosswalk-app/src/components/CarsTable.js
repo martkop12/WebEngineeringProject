@@ -270,8 +270,11 @@ const useStyles = makeStyles((theme) => ({
     width: 1,
   },
 }));
+ 
+export default function CarsTable({props}) {
+  console.log(props);
 
-export default function CarsTable(props) {
+
   const carsOrPedestrians = props;
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');

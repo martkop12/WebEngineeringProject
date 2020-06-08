@@ -81,14 +81,20 @@ const useStyles = makeStyles((theme) => ({
 export default function Crosswalk () {
 
   const { crosswalkId } = useParams();
+  // console.log(crosswalkId)
 
-  firebase.firestore().collection("information").get().then((snapshot) => {
-         console.log(snapshot.docs);
-          snapshot.docs.forEach(doc => {
-              console.log(doc.data());
-            //   CrosswalkList.push({id: doc.id, ...doc.data().location})
-          })
-      });
+
+  const { crosswalkData } = useCrosswalk(crosswalkId);
+
+  console.log(crosswalkData)
+
+  // firebase.firestore().collection(`information`).doc(`${crosswalkId}`).get().then((snapshot) => {
+  //        console.log(snapshot.data());
+  //         // snapshot.docs.forEach(doc => {
+  //         //     console.log(doc.id);
+  //         //   //   CrosswalkList.push({id: doc.id, ...doc.data().location})
+  //         // })
+  //     });
     
     //   console.log(cars);
 
@@ -192,7 +198,7 @@ export default function Crosswalk () {
       </Paper>
 
       <div style={{ padding: 40 }}>
-        <Grid container spacing={3}>
+        <Grid direction="column" container spacing={3}>
           <Grid item xs>
             <Paper className={classes.paper}>
               <Typography variant="h2" color="textSecondary">
@@ -207,38 +213,14 @@ export default function Crosswalk () {
                   </div>
                 </Grid>
                 <Grid item xs>
-                  {/* <Typography className={classes.carsNear} variant= "h5" color="textSecondary">
-                            Cars near
-                        </Typography>
-                        <List dense className={classes.list}>
-                            {[0, 1, 2, 3].map((value) => {
-                                const labelId = `checkbox-list-secondary-label-${value}`;
-                                return (
-                                <ListItem key={value} button>
-                                    <ListItemAvatar>
-                                    <Avatar
-                                        alt={`Avatar n°${value + 1}`}
-                                        src={`/static/images/avatar/${value + 1}.jpg`}
-                                    />
-                                    </ListItemAvatar>
-                                    <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
-                                    <ListItemSecondaryAction>
-                                    <Checkbox
-                                        edge="end"
-                                        onChange={handleToggle(value)}
-                                        checked={checked.indexOf(value) !== -1}
-                                        inputProps={{ 'aria-labelledby': labelId }}
-                                    />
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                                );
-                            })}
-                        </List> */}
+                { crosswalkData && (
+                  <CarsTable props={crosswalkData.pedestrians} />
+                    )}
+                  {/* <CarsTable
+                 
+                    props={crosswalkData.cars} /> */}
 
-                  <CarsTable
-                    props='cars' />
-
-                  <Paper className={classes.paper}>xs</Paper>
+                 
                 </Grid>
               </Grid>
 
@@ -259,8 +241,12 @@ export default function Crosswalk () {
                   </div>
                 </Grid>
                 <Grid item xs>
-                  <CarsTable props='pedestrians' />
-                  <Paper className={classes.paper}>xs</Paper>
+
+                  { crosswalkData && (
+                    console.log(crosswalkData),
+                  <CarsTable props={crosswalkData.cars} />
+                    )}
+                  
                 </Grid>
               </Grid>
             </Paper>

@@ -1,39 +1,46 @@
 import { useState, useEffect } from "react";
 import { firebase } from "../firebase";
 
-export const useCrosswalk = () => {
-  const [crosswalk, setCrosswalk] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
+// export const useCrosswalk = (crosswalkId) => {
+//   const [crosswalkData, setCrosswalkData] = useState([]);
+//   const [isFetching, setIsFetching] = useState(false);
+// console.log("Called")
 
-  useEffect(() => {
-    setIsFetching(true);
-    firebase.firestore().collection("information").get().then((snapshot) => {
-        let crosswalkList = [];
-        snapshot.docs.forEach(doc => {
-            // console.log(doc.id);
-            crosswalkList.push({id: doc.id, ...doc.data().location})
-        })
+//   useEffect(() => {
+//     setIsFetching(true);
+//     firebase.firestore().collection(`information`).doc(`${crosswalkId}`).get().then((snapshot) => {      
+//         let crossData = snapshot.data();
+//         setCrosswalkData(crossData);
+//         setIsFetching(false);         
+//     });
+//     return () => {
+//         firebase
+//           .database()
+//           .ref(`information`)
+//           .off();
+//       };
+//     }, [crosswalkData]);
+//     return { crosswalkData, isFetching };
+// };
 
-        if (JSON.stringify(crosswalkList) !== JSON.stringify(crosswalk)) {
-            // console.log(CrosswalkList)
-
-            setCrosswalk(crosswalkList);
-          }
+export const useCrosswalk = crosswalkId => {
+    const [crosswalkData, setCrosswalkData] = useState();
   
-          setIsFetching(false);
-    });
-    return () => {
-        firebase
-          .database()
-          .ref(`monitor`)
-          .off();
-      };
-    }, [crosswalk]);
-    return { crosswalk, isFetching };
-};
+    useEffect(() => {
+    //   const userId = 1;
+    firebase.firestore().collection(`information`).doc(`${crosswalkId}`).get().then((snapshot) => {
+        setCrosswalkData({
+            id: snapshot.id,
+            ...snapshot.data()
+          });
+        });
+    }, [crosswalkId]);
+  
+    return { crosswalkData, setCrosswalkData };
+  };
     
 // export const useCrosswalk = crosswalkId => {
-//     const [crosswalk, setCrosswalk] = useState();
+//     const [crosswalk, setCrosswalkData] = useState();
 //     const [isFetching, setIsFetching] = useState(false);
       
 //         useEffect(() => {
@@ -41,7 +48,7 @@ export const useCrosswalk = () => {
 
 //           firebase.firestore().collection(`information/${crosswalkId}`).get().then((snapshot) => {
 //                 console.log(snapshot.doc.data());
-//               setCrosswalk({
+//               setCrosswalkData({
 //                   id: snapshot.doc.key,
 //                   ...snapshot.doc.val()
 //               })
@@ -49,7 +56,7 @@ export const useCrosswalk = () => {
 //         }, [crosswalkId]);
 //         setIsFetching(false);
       
-//         return { crosswalk, setCrosswalk };
+//         return { crosswalk, setCrosswalkData };
 //       };
       
   

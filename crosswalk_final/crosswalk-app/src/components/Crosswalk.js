@@ -192,7 +192,7 @@ export default function Crosswalk () {
       </Paper>
 
       <div style={{ padding: 40 }}>
-        <Grid container spacing={3}>
+        <Grid direction="column" container spacing={3}>
           <Grid item xs>
             <Paper className={classes.paper}>
               <Typography variant="h2" color="textSecondary">
@@ -238,7 +238,7 @@ export default function Crosswalk () {
                   <CarsTable
                     props='cars' />
 
-                  <Paper className={classes.paper}>xs</Paper>
+                 
                 </Grid>
               </Grid>
 
@@ -260,7 +260,7 @@ export default function Crosswalk () {
                 </Grid>
                 <Grid item xs>
                   <CarsTable props='pedestrians' />
-                  <Paper className={classes.paper}>xs</Paper>
+                  
                 </Grid>
               </Grid>
             </Paper>

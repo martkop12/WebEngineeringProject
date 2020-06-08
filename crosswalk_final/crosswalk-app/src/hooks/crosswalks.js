@@ -10,8 +10,9 @@ export const useCrosswalks = () => {
     firebase.firestore().collection("monitor").get().then((snapshot) => {
         let crosswalksList = [];
         snapshot.docs.forEach(doc => {
-            // console.log(doc.id);
-            crosswalksList.push({id: doc.id, ...doc.data().location})
+            // console.log(doc.data().state_of_light);
+            let stateOfLight = doc.data().state_of_light;
+            crosswalksList.push({id: doc.id, stateOfLight,...doc.data().location})
         })
 
         if (JSON.stringify(crosswalksList) !== JSON.stringify(crosswalks)) {

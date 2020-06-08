@@ -183,14 +183,6 @@ export default function Crosswalk () {
                 gutterBottom
               >
                 Crosswalk
-                    </Typography>
-
-              <Typography color="inherit" paragraph>
-                {/* {moment("12.06.1998").format("DD/MM/YYYY")} -{" "}
-                        {moment("12.06.1998").format("DD/MM/YYYY")} */}
-
-                {/* //  {"12.06.1998"} -{" "}
-                        // {"12.06.1998"} */}
               </Typography>
             </div>
           </Grid>
@@ -214,13 +206,11 @@ export default function Crosswalk () {
                 </Grid>
                 <Grid item xs>
                 { crosswalkData && (
-                  <CarsTable props={crosswalkData.pedestrians} />
+                  crosswalkData.cars &&
+                  <CarsTable
+                  type= {"cars"}
+                  crosswalkData={crosswalkData.cars} />
                     )}
-                  {/* <CarsTable
-                 
-                    props={crosswalkData.cars} /> */}
-
-                 
                 </Grid>
               </Grid>
 
@@ -243,8 +233,13 @@ export default function Crosswalk () {
                 <Grid item xs>
 
                   { crosswalkData && (
+                    
+                      crosswalkData.pedestrians &&
+
                     console.log(crosswalkData),
-                  <CarsTable props={crosswalkData.cars} />
+                  <CarsTable 
+                  type= {"pedestrians"}
+                  crosswalkData={crosswalkData.pedestrians} />
                     )}
                   
                 </Grid>

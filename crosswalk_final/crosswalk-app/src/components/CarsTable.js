@@ -25,6 +25,8 @@ import {
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) =>{
   console.log(props.uid)
+  console.log(props.carOne)
+
 
   var userRoute = [
       {
@@ -76,12 +78,12 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>{
     }
   ]
 
-  console.log(userRoute)
+  // console.log(userRoute)
 
-  const markers = userRoute.map( position => 
+  const markers = props.carOne.map( carOne => 
                   <Marker
                     key={Math.random()}
-                    position={{lat: parseFloat(position.lat), lng: parseFloat(position.lng)}}
+                    position={{lat: parseFloat(carOne.latitude), lng: parseFloat(carOne.longitude)}}
                   />
                   // new Marker({position})
                   );
@@ -89,10 +91,10 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>{
   return (
         <GoogleMap
           defaultZoom={18}
-          defaultCenter={{ lat: parseFloat(userRoute[0].position.lat), lng:parseFloat(userRoute[0].position.lng) }}
+          defaultCenter={{ lat: parseFloat(props.carOne[0].latitude), lng:parseFloat(props.carOne[0].longitude) }}
         >
           {props.isMarkerShown && (
-          <Marker key={Math.random()} position={{ lat: parseFloat(userRoute[0].position.lat), lng:parseFloat(userRoute[0].position.lng) }} />
+          <Marker key={Math.random()} position={{ lat: parseFloat(props.carOne[0].latitude), lng:parseFloat(props.carOne[0].longitude) }} />
           // <Marker key={Math.random()} position={{ lat: parseFloat(userRoute[1].position.lat), lng:parseFloat(userRoute[1].position.lng) }} />
           // <Marker key={Math.random()} position={{ lat: parseFloat(userRoute[2].position.lat), lng:parseFloat(userRoute[2].position.lng) }} />
           // <Marker key={Math.random()} position={{ lat: parseFloat(userRoute[3].position.lat), lng:parseFloat(userRoute[3].position.lng) }} />
@@ -170,12 +172,6 @@ function EnhancedTableHead(props) {
         }}>
       <TableRow>
         <TableCell padding="checkbox">
-          {/* <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={}
-            inputProps={{ 'aria-label': 'select all desserts' }}
-          /> */}
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
@@ -271,11 +267,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
  
-export default function CarsTable({props}) {
-  console.log(props);
+export default function CarsTable({type, crosswalkData}) {
+  console.log(type);
+  console.log(crosswalkData);
+
+  function group(arr, key) {
+    return [...arr.reduce( (acc, o) => 
+        acc.set(o[key], (acc.get(o[key]) || []).concat(o))
+    , new Map).values()];
+  }
+
+  const result = group(crosswalkData, 'id');
+  // result[0].
+
+  console.log(result[1]);
+  let carOne = [];
+
+  result[0].forEach(getLocations)
+  function getLocations(item, index, arr) {
+    carOne.push(item.location)
+  }
+  console.log(carOne)
 
 
-  const carsOrPedestrians = props;
+
+
+  // const carsOrPedestrians = props;
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('distance');
@@ -317,10 +334,6 @@ export default function CarsTable({props}) {
   const [open, setOpen] = React.useState(false);
   const [uid, setUid] = React.useState(undefined);
   
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-
   const handleClose = () => {
     setUid(undefined);
     setOpen(false);
@@ -331,13 +344,6 @@ export default function CarsTable({props}) {
     setOpen(true);
     console.log('We need to get the details for ', row);
   }
-
-  // const handleModalName = () => {
-  
-  //       return(<p>{props} {uid} </p>)
-  
-  // }
-  
   
   return (
     <div className={classes.root}>
@@ -418,6 +424,7 @@ export default function CarsTable({props}) {
                 lat={14}
                 lng={45}
                 uid={uid}
+                carOne={carOne}
                 googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
                 loadingElement={<div style={{ height: `100%` }} />}
                 containerElement={<div style={{ height: `400px` }} />}

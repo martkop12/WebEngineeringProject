@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 const serviceAccount = require('../firebaseAccountKey.json');
 
 admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount)
 });
 
 const clientInformationReceiver = new cote.Responder({
@@ -19,12 +19,51 @@ clientInformationReceiver.on('notify', (req, cb) => {
   const client = data.info.toString();
   const crosswalkID = data.crosswalkID.toString();
   const clientID = data.id.toString();
-  const information = {
-    time: data.time,
-    location: data.location
-  }
 
-// add information to DB
-  let addInformationRef = db.collection('information').doc(crosswalkID).collection(client).doc(clientID).collection('route');
-  let addInformationDoc = addInformationRef.add(information);
+  // add information to DB
+  const addInfoRef = db.collection('information').doc(crosswalkID);
+  addInfoRef.get()
+    .then((docSnapshot) => {
+      // if doc exists then append pede/car
+      if (docSnapshot.exists) {
+        if (client == 'pedestrian') {
+          addInfoRef.update({
+            pedestrian: admin.firestore.FieldValue.arrayUnion({
+              id: clientID,
+              location: data.location,
+              time: data.time
+            })
+          });
+        } else {
+          addInfoRef.update({
+            car: admin.firestore.FieldValue.arrayUnion({
+              id: clientID,
+              location: data.location,
+              time: data.time
+            })
+          });
+        }
+        // else create new doc for crosswalk
+      } else {
+        if (client == 'pedestrian') {
+          addInfoRef.set({
+            car: [],
+            pedestrian: [{
+              id: clientID,
+              location: data.location,
+              time: data.time
+            }]
+          });
+        } else {
+          addInfoRef.set({
+            car: [{
+              id: clientID,
+              location: data.location,
+              time: data.time
+            }],
+            pedestrian: []
+          });
+        }
+      }
+    });
 })

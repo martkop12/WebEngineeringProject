@@ -9,9 +9,8 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import * as firebase from "firebase/app";
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext } from "react";
 import { Redirect, withRouter } from "react-router";
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 import { AuthContext } from "../Auth";
 import { firebase as localFirebase } from "../firebase";

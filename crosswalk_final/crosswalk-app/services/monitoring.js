@@ -24,7 +24,7 @@ const notifyCarRequester = new cote.Requester({
 });
 
 // receive information from client location and pede/car
-clientInformationReceiver.on('send_client_info', async (req, cb) => {
+clientInformationReceiver.on('send_client_info', (req, cb) => {
   const clientInformation = req.user;
 
   // fetch every crosswalk
@@ -36,13 +36,13 @@ clientInformationReceiver.on('send_client_info', async (req, cb) => {
       }
 
       // for each crosswalk
-      snapshot.forEach(crosswalk => { 
+      snapshot.forEach(crosswalk => {
         const crosswalkData = crosswalk.data();
 
         // if client is pedestrian
-        if (clientInformation.info === 'pedestrian'){
+        if (clientInformation.info === 'pedestrian') {
           // if pedestrian is already in crosswalk pedestrians array
-          if (crosswalkData.pedestrians.includes(clientInformation.id.toString())){
+          if (crosswalkData.pedestrians.includes(clientInformation.id.toString())) {
             // if client leave the crosswalk area then remove it from crosswalk pedestrians array
             if (!distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
               let updateDoc = db.collection('monitor').doc(crosswalk.id.toString()).update({
@@ -58,9 +58,9 @@ clientInformationReceiver.on('send_client_info', async (req, cb) => {
             }
           }
         }
-      
+
         // if client is car then send clientiformation to notification service
-        if (clientInformation.info === 'car'){
+        if (clientInformation.info === 'car') {
           if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
             notifyCarRequester.send({
               type: 'crosswalk_information',

@@ -39,13 +39,10 @@ io.on("connection", (socket) => {
 
   // http request for sending information to monitoring service
   app.post('/api/world', (req, res) => {
-    console.log("post click")
-    // console.log(req)
     const request = {
       type: 'send_client_info',
       user: req.body,
     }
-
     // send information to monitoring service
     clientLocationSender.send(request);
 

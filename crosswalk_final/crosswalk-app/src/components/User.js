@@ -6,11 +6,10 @@ import { AuthContext } from "../Auth";
 const ENDPOINT = "http://127.0.0.1:5000";
 
 function User() {
-  const [clientID, setClientID] = useState('');
   const [clientInfo, setClientInfo] = useState('pedestrian');
   const [clientLatitude, setClientLatitude] = useState('');
   const [clientLongitude, setClientLongitude] = useState('');
-  const [crosswalks, setCrosswalks ] = useState([]);
+  const [crosswalks, setCrosswalks] = useState([]);
   const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
@@ -19,25 +18,25 @@ function User() {
       console.log(data);
       setCrosswalks(data);
     });
-    
-  },[]);
+
+  }, []);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const response = await fetch('/api/world', {
+    await fetch('/api/world', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: clientID,
+        id: currentUser.uid,
         info: clientInfo,
         location: {
           latitude: parseFloat(clientLatitude),
           longitude: parseFloat(clientLongitude)
         }
       }),
-    });  
+    });
   };
 
   return (
@@ -47,7 +46,7 @@ function User() {
           <strong>Client information:</strong>
         </p>
         <label>
-            id: {currentUser.uid}
+          id: {currentUser.uid}
         </label>
 
         <br></br>

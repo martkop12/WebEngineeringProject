@@ -28,7 +28,7 @@ clientInformationReceiver.on('notify', (req, cb) => {
       if (docSnapshot.exists) {
         if (client == 'pedestrian') {
           addInfoRef.update({
-            pedestrian: admin.firestore.FieldValue.arrayUnion({
+            pedestrians: admin.firestore.FieldValue.arrayUnion({
               id: clientID,
               location: data.location,
               time: data.time
@@ -36,7 +36,7 @@ clientInformationReceiver.on('notify', (req, cb) => {
           });
         } else {
           addInfoRef.update({
-            car: admin.firestore.FieldValue.arrayUnion({
+            cars: admin.firestore.FieldValue.arrayUnion({
               id: clientID,
               location: data.location,
               time: data.time
@@ -47,8 +47,8 @@ clientInformationReceiver.on('notify', (req, cb) => {
       } else {
         if (client == 'pedestrian') {
           addInfoRef.set({
-            car: [],
-            pedestrian: [{
+            cars: [],
+            pedestrians: [{
               id: clientID,
               location: data.location,
               time: data.time
@@ -56,12 +56,12 @@ clientInformationReceiver.on('notify', (req, cb) => {
           });
         } else {
           addInfoRef.set({
-            car: [{
+            cars: [{
               id: clientID,
               location: data.location,
               time: data.time
             }],
-            pedestrian: []
+            pedestrians: []
           });
         }
       }

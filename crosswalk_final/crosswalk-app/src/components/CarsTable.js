@@ -25,7 +25,7 @@ import {
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) =>{
   console.log(props.uid)
-  console.log(props.carOne)
+  console.log(props.objectWithRoute)
 
 
   var userRoute = [
@@ -80,27 +80,23 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) =>{
 
   // console.log(userRoute)
 
-  const markers = props.carOne.map( carOne => 
+  const markers = props.objectWithRoute.route.map( route => 
                   <Marker
                     key={Math.random()}
-                    position={{lat: parseFloat(carOne.latitude), lng: parseFloat(carOne.longitude)}}
+                    position={{lat: parseFloat(route.latitude), lng: parseFloat(route.longitude)}}
+                    // {...console.log("latitude SU ",route.latitude)}
                   />
-                  // new Marker({position})
+                 
+
                   );
-                  
+                  console.log("MARKERS SU ",markers)
   return (
         <GoogleMap
           defaultZoom={18}
-          defaultCenter={{ lat: parseFloat(props.carOne[0].latitude), lng:parseFloat(props.carOne[0].longitude) }}
+          defaultCenter={{ lat: parseFloat(props.objectWithRoute.route[0].latitude), lng:parseFloat(props.objectWithRoute.route[0].longitude) }}
         >
           {props.isMarkerShown && (
-          <Marker key={Math.random()} position={{ lat: parseFloat(props.carOne[0].latitude), lng:parseFloat(props.carOne[0].longitude) }} />
-          // <Marker key={Math.random()} position={{ lat: parseFloat(userRoute[1].position.lat), lng:parseFloat(userRoute[1].position.lng) }} />
-          // <Marker key={Math.random()} position={{ lat: parseFloat(userRoute[2].position.lat), lng:parseFloat(userRoute[2].position.lng) }} />
-          // <Marker key={Math.random()} position={{ lat: parseFloat(userRoute[3].position.lat), lng:parseFloat(userRoute[3].position.lng) }} />
-          // <Marker key={Math.random()} position={{ lat: parseFloat(userRoute[4].position.lat), lng:parseFloat(userRoute[4].position.lng) }} />
-          // <Marker key={Math.random()} position={{ lat: parseFloat(userRoute[5].position.lat), lng:parseFloat(userRoute[5].position.lng) }} />
-
+          <Marker key={Math.random()} position={{ lat: parseFloat(props.objectWithRoute.route[0].latitude), lng:parseFloat(props.objectWithRoute.route[0].longitude) }} />
           )}
           
           {markers}
@@ -278,8 +274,34 @@ export default function CarsTable({type, crosswalkData}) {
   }
 
   const result = group(crosswalkData, 'id');
-  // result[0].
+  console.log(result);
+  console.log("result je ",result.length)
 
+  var objectsWithRoute = [];
+
+  if(result) {
+    result.forEach(getObjectWithRoute)
+  }
+
+  function getObjectWithRoute(item, index, arr) {
+    let object = {
+      id: null,
+      route: [],
+    };
+    let route=[];
+    console.log("Novy obj je ", item)
+    object.id= item[0].id;
+    item.forEach(function(entry) {
+      // console.log("Prechadzam",entry);
+      object.route.push(entry.location)
+    });
+    
+    objectsWithRoute.push(object)
+  }
+
+  console.log("Obj with routes",objectsWithRoute);
+
+  
   console.log(result[1]);
   let carOne = [];
 
@@ -333,6 +355,8 @@ export default function CarsTable({type, crosswalkData}) {
  //Map modal part
   const [open, setOpen] = React.useState(false);
   const [uid, setUid] = React.useState(undefined);
+  const [objectWithRoute, setObjectWithRoute] = React.useState(undefined);
+
   
   const handleClose = () => {
     setUid(undefined);
@@ -340,7 +364,18 @@ export default function CarsTable({type, crosswalkData}) {
   };
 
   const handleRowClick = (row) => {
-    setUid(row.uid);
+    setUid(row.id);
+    if(objectsWithRoute){
+      console.log("Exist",objectsWithRoute);
+      console.log("Uid",row.id);
+
+      console.log("?",objectWithRoute);
+      setObjectWithRoute(objectsWithRoute.find(x => x.id === row.id));
+      console.log(objectsWithRoute.find(x => x.id === row.id))
+      console.log("Gere",objectWithRoute);
+
+    };
+    ;
     setOpen(true);
     console.log('We need to get the details for ', row);
   }
@@ -364,12 +399,12 @@ export default function CarsTable({type, crosswalkData}) {
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={objectsWithRoute.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+              {stableSort(objectsWithRoute, getComparator(order, orderBy))
+                .map((objectWithRoute, index) => {
+                  const isItemSelected = isSelected(objectWithRoute.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
@@ -379,20 +414,19 @@ export default function CarsTable({type, crosswalkData}) {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={objectWithRoute.id}
                       selected={isItemSelected}
-                      onClick={() => handleRowClick(row)}
+                      onClick={() => handleRowClick(objectWithRoute)}
                     >
                       <TableCell padding="checkbox">
                         
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
+                        {objectWithRoute.id}
                       </TableCell>
-                      <TableCell align="right">{row.crossed}</TableCell>
-                      <TableCell align="right">{row.distance}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      {/* <TableCell align="right">{row.crossed}</TableCell>
+                      <TableCell align="right">{row.distance}</TableCell> */}
+
                     </TableRow>
                   );
                 })}
@@ -424,7 +458,7 @@ export default function CarsTable({type, crosswalkData}) {
                 lat={14}
                 lng={45}
                 uid={uid}
-                carOne={carOne}
+                objectWithRoute={objectWithRoute}
                 googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
                 loadingElement={<div style={{ height: `100%` }} />}
                 containerElement={<div style={{ height: `400px` }} />}

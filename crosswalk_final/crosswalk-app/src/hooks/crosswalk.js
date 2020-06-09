@@ -6,7 +6,7 @@ export const useCrosswalk = crosswalkId => {
     const [crosswalkData, setCrosswalkData] = useState();
   
     useEffect(() => {
-    firebase.firestore().collection(`information`).doc(`${crosswalkId}`).get().then((snapshot) => {
+    firebase.firestore().collection(`information`).doc(`${crosswalkId}`).onSnapshot((snapshot) => {
         setCrosswalkData({
             id: snapshot.id,
             ...snapshot.data()

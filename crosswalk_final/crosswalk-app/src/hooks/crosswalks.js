@@ -7,7 +7,7 @@ export const useCrosswalks = () => {
 
   useEffect(() => {
     setIsFetching(true);
-    firebase.firestore().collection("monitor").get().then((snapshot) => {
+    firebase.firestore().collection("monitor").onSnapshot((snapshot) => {
         let crosswalksList = [];
         snapshot.docs.forEach(doc => {
             // console.log(doc.data().state_of_light);
@@ -32,23 +32,4 @@ export const useCrosswalks = () => {
     }, [crosswalks]);
     return { crosswalks, isFetching };
 };
-    
 
-// export const useCrosswalk = (tripId, entryId) => {
-//   const [entry, setEntry] = useState();
-
-//   useEffect(() => {
-//     const userId = 1;
-//     firebase
-//       .database()
-//       .ref(`crosswalks/${userId}/${tripId}/${entryId}`)
-//       .once("value", snapshot => {
-//         setEntry({
-//           id: snapshot.key,
-//           ...snapshot.val()
-//         });
-//       });
-//   }, [tripId, entryId]);
-
-//   return { entry };
-// };

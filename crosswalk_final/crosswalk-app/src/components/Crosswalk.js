@@ -6,16 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
 import Header from "./layout/Header";
-import ReactDOM from 'react-dom';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Checkbox from '@material-ui/core/Checkbox';
-import Avatar from '@material-ui/core/Avatar';
 import CrosswalkTable from './CrosswalkTable';
-import { firebase } from "../firebase";
 
 import { useParams } from "react-router-dom";
 import { useCrosswalk, useCrosswalkLight } from '../hooks/crosswalk';
@@ -110,22 +101,6 @@ export default function Crosswalk () {
     return ref.current;
   }
 
- 
-  // firebase.firestore().collection(`information`).doc(`${crosswalkId}`).get().then((snapshot) => {
-  //        console.log(snapshot.data());
-  //         // snapshot.docs.forEach(doc => {
-  //         //     console.log(doc.id);
-  //         //   //   CrosswalkList.push({id: doc.id, ...doc.data().location})
-  //         // })
-  //     });
-    
-    //   console.log(cars);
-
-
-//   console.log(crosswalkId);
-//   const { crosswalk } = useCrosswalk(crosswalkId);
-//   console.log(crosswalk);
-
   const classes = useStyles();
   const circles = document.getElementsByClassName(classes.trafficCircle)
   // let activeLight = 0;
@@ -145,27 +120,15 @@ export default function Crosswalk () {
     setChecked(newChecked);
   };
 
-
-  // setInterval(() => {
-  //     changeLight();
-  // }, 5000);
-  // const previousActiveRef = useRef();
   React.useEffect(() => {
-    // previousActiveRef.current = activeLight
-    console.log("UseEffectCalled")
     crosswalkLight &&(
       crosswalkLight.stateOfLight &&(
         // getLight(crosswalkLight) !== activeLight &&(
           setLight(crosswalkLight.stateOfLight)
         )
       )
-      
-    // )
-    // document.title = `You clicked ${count} times`;
+
   });
-
-
-  // {};
 
   function getLight(color){
     if (color === 'red') {
@@ -178,9 +141,6 @@ export default function Crosswalk () {
   };
 
   function setLight(color) {
-    // let previousActive = activeLight;
-    console.log(" active je ",activeLight)
-    console.log("Previous active je ",previousActive)
     setActiveLight(getLight(color));
 
     circles[previousActive].style.backgroundColor= "rgba(0, 0, 0, 0.3)";
@@ -189,8 +149,6 @@ export default function Crosswalk () {
     circles[activeLight].style.backgroundColor = ( circles[activeLight].getAttribute('color'));
     circles[activeLight].style.boxShadow = ( circles[activeLight].getAttribute('boxShadow'))
   };
-
-
 
   return (
     <React.Fragment>

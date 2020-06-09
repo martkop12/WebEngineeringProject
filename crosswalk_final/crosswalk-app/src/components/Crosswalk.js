@@ -191,7 +191,7 @@ export default function Crosswalk () {
                 <Grid className={classes.trafficLightGrid} item xs={2}>
                   <div className={classes.trafficLightContainer} >
                     <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
-                    <div className={classes.trafficCircle} color="#f1c40f" boxShadow="0 0 20px 5px #f1c40f"></div>
+                    <div className={classes.trafficCircle} color="#F1B00F" boxShadow="0 0 20px 5px #F1B00F"></div>
                     <div className={classes.trafficCircle} color="#2ecc71" boxShadow="0 0 20px 5px #2ecc71"></div>
                   </div>
                 </Grid>

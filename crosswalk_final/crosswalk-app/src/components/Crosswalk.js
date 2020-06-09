@@ -16,7 +16,7 @@ import CrosswalkTable from './CrosswalkTable';
 import { firebase } from "../firebase";
 
 import { useParams } from "react-router-dom";
-import { useCrosswalk } from '../hooks/crosswalk';
+import { useCrosswalk, useCrosswalkLight } from '../hooks/crosswalk';
 
 
 // let { tripId, entryId } = useParams();
@@ -99,6 +99,10 @@ export default function Crosswalk () {
 
   console.log(crosswalkData)
 
+  const { crosswalkLight } = useCrosswalkLight(crosswalkId);
+  console.log(crosswalkLight)
+
+ 
   // firebase.firestore().collection(`information`).doc(`${crosswalkId}`).get().then((snapshot) => {
   //        console.log(snapshot.data());
   //         // snapshot.docs.forEach(doc => {
@@ -116,7 +120,7 @@ export default function Crosswalk () {
 
   const classes = useStyles();
   const circles = document.getElementsByClassName(classes.trafficCircle)
-  let activeLight = 2;
+  let activeLight = 0;
   let currentLight = circles[activeLight];
   const [checked, setChecked] = React.useState([1]);
 
@@ -138,37 +142,34 @@ export default function Crosswalk () {
   //     changeLight();
   // }, 5000);
 
-  function setInitialLight() {
-    activeLight = 0;
-    currentLight = circles[0]
-    currentLight.style.backgroundColor = (currentLight.getAttribute('color'));
-    currentLight.style.boxShadow = (currentLight.getAttribute('boxShadow'))
-  }
+  {crosswalkLight &&(
+    crosswalkLight.stateOfLight &&(
+      setLight(crosswalkLight.stateOfLight)
+    )
+    
+  )};
 
-  //     function changeLight() {
-  //         console.log(circles);
-  //         if(circles[activeLight]){
-  //             circles[activeLight].style.backgroundColor= "rgba(0, 0, 0, 0.3)";
-  //             circles[activeLight].style.boxShadow= "0 0 0 0 ";
-  //             // circles[activeLight].className = 'circle';
-  //             activeLight++;
+  function getLight(color){
+    if (color === 'red') {
+      return 0;
+    } else if (color === 'orange') {
+      return 1;
+    } else  if (color === 'green') {
+      return 2;
+    } else return null;
+  };
 
-  //             if(activeLight > 2) {
-  //                 activeLight = 0;
-  //             }
+  function setLight(color) {
+    let previousActive = activeLight;
+    activeLight = getLight(color);
 
-  //         currentLight = circles[activeLight];
-  //         console.log(currentLight.style.backgroundColor);
-  //         // currentLight.style = {
-  //         //     bv
-  //         // }
+    circles[previousActive].style.backgroundColor= "rgba(0, 0, 0, 0.3)";
+    circles[previousActive].style.boxShadow= "0 0 0 0 ";
 
-  //         currentLight.style.backgroundColor=(currentLight.getAttribute('color'));
-  //         currentLight.style.boxShadow=(currentLight.getAttribute('boxShadow'));
+    circles[activeLight].style.backgroundColor = ( circles[activeLight].getAttribute('color'));
+    circles[activeLight].style.boxShadow = ( circles[activeLight].getAttribute('boxShadow'))
+  };
 
-  //         }
-
-  // }
 
 
   return (
@@ -183,7 +184,7 @@ export default function Crosswalk () {
         {<img style={{ display: "none" }} src="https://st3.depositphotos.com/16229314/19138/v/1600/depositphotos_191385946-stock-illustration-street-crossroad-vector-cartoon-illustration.jpg" alt="img" />}
         <div className={classes.overlay} />
 
-        <Grid container>
+        <Grid >
           <Grid item md={12}>
             <div className={classes.mainFeaturedPostContent}>
               <Typography
@@ -201,7 +202,7 @@ export default function Crosswalk () {
         </Grid>
       </Paper>
       <div style={{ padding: 40 }}>
-        <Grid direction="column" container spacing={3}>
+        <Grid direction="column"  spacing={3}>
         {/* <Paper className={classes.paper}> */}
 
           <Grid item xs>
@@ -225,14 +226,12 @@ export default function Crosswalk () {
                   }}
                  item xs>
                 { crosswalkData && (
-                  console.log(crosswalkData),
+                  // console.log(crosswalkData),
                   crosswalkData.cars ? (
                     <CrosswalkTable
                     type= {"cars"}
                     crosswalkData={crosswalkData.cars} />
                   ) : (
-                      console.log("am here"),
-
                       <Typography style= {{
                         textAlign: "center"
                       }} variant="h4" color="textSecondary">
@@ -252,13 +251,6 @@ export default function Crosswalk () {
                 </Typography>
               <Grid className={classes.pedestrians} container spacing={3}>
                 <Grid className={classes.emptyTrafficGrid} item xs={2}/>
-                {/* <Grid className={classes.trafficLightGrid} item xs={2}> */}
-                  {/* <div className={classes.trafficLightContainer}>
-                    <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
-                    <div className={classes.trafficCircle} color="#f1c40f" boxShadow="0 0 20px 5px #f1c40f"></div>
-                    <div className={classes.trafficCircle} color="#2ecc71" boxShadow="0 0 20px 5px #2ecc71"></div>
-                  </div> */}
-                {/* </Grid> */}
                 <Grid
                   direction="column"
                   alignItems="center"
@@ -268,14 +260,12 @@ export default function Crosswalk () {
                     }}
                   item xs>
                   { crosswalkData && (
-                    console.log(crosswalkData),
+                    // console.log(crosswalkData),
                     crosswalkData.pedestrians ? (
                       <CrosswalkTable
                       type= {"pedestrians"}
                       crosswalkData={crosswalkData.pedestrians} />
                     ) : (
-                        // console.log("am here"),
-
                         <Typography style= {{
                           textAlign: "center"
                         }} variant="h4" color="textSecondary">

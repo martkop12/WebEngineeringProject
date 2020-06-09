@@ -22,7 +22,7 @@ export const useCrosswalkLight = crosswalkId => {
   const [crosswalkLight, setCrosswalkLight] = useState();
 
   useEffect(() => {
-  firebase.firestore().collection(`monitor`).doc(`${crosswalkId}`).get().then((snapshot) => {
+  firebase.firestore().collection(`monitor`).doc(`${crosswalkId}`).onSnapshot((snapshot) => {
     let stateOfLight = snapshot.data().state_of_light;
     setCrosswalkLight({
           id: snapshot.id,

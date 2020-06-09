@@ -1,4 +1,6 @@
 import React from 'react';
+import { useState } from 'react';
+
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -90,17 +92,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Crosswalk () {
-
   const { crosswalkId } = useParams();
   // console.log(crosswalkId)
-
-
   const { crosswalkData } = useCrosswalk(crosswalkId);
-
   console.log(crosswalkData)
 
   const { crosswalkLight } = useCrosswalkLight(crosswalkId);
   console.log(crosswalkLight)
+  const [activeLight, setActiveLight] = useState(0);
+  const previousActive = usePrevious(activeLight);
+
+  function usePrevious(value) {
+    const ref = React.useRef();
+    React.useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
 
  
   // firebase.firestore().collection(`information`).doc(`${crosswalkId}`).get().then((snapshot) => {
@@ -120,7 +128,7 @@ export default function Crosswalk () {
 
   const classes = useStyles();
   const circles = document.getElementsByClassName(classes.trafficCircle)
-  let activeLight = 0;
+  // let activeLight = 0;
   let currentLight = circles[activeLight];
   const [checked, setChecked] = React.useState([1]);
 
@@ -141,13 +149,23 @@ export default function Crosswalk () {
   // setInterval(() => {
   //     changeLight();
   // }, 5000);
+  // const previousActiveRef = useRef();
+  React.useEffect(() => {
+    // previousActiveRef.current = activeLight
+    console.log("UseEffectCalled")
+    crosswalkLight &&(
+      crosswalkLight.stateOfLight &&(
+        // getLight(crosswalkLight) !== activeLight &&(
+          setLight(crosswalkLight.stateOfLight)
+        )
+      )
+      
+    // )
+    // document.title = `You clicked ${count} times`;
+  });
 
-  {crosswalkLight &&(
-    crosswalkLight.stateOfLight &&(
-      setLight(crosswalkLight.stateOfLight)
-    )
-    
-  )};
+
+  // {};
 
   function getLight(color){
     if (color === 'red') {
@@ -160,8 +178,10 @@ export default function Crosswalk () {
   };
 
   function setLight(color) {
-    let previousActive = activeLight;
-    activeLight = getLight(color);
+    // let previousActive = activeLight;
+    console.log(" active je ",activeLight)
+    console.log("Previous active je ",previousActive)
+    setActiveLight(getLight(color));
 
     circles[previousActive].style.backgroundColor= "rgba(0, 0, 0, 0.3)";
     circles[previousActive].style.boxShadow= "0 0 0 0 ";

@@ -77,6 +77,10 @@ const useStyles = makeStyles((theme) => ({
   },
   trafficLightGrid: {
     textAlign: "-webkit-center"
+
+  },
+  emptyTrafficGrid: {
+    height: "200px"
   },
   headers: {
     textAlign: "center"
@@ -168,6 +172,7 @@ export default function Crosswalk () {
 
 
   return (
+    <React.Fragment>
     <div className={classes.root}>
       <Header />
       <Paper
@@ -200,7 +205,7 @@ export default function Crosswalk () {
         {/* <Paper className={classes.paper}> */}
 
           <Grid item xs>
-              <Typography className={classes.headers} variant="h2" color="textSecondary">
+              <Typography className={classes.headers} variant="h2" color="textPrimary">
                 Cars
                 </Typography>
               <Grid justify="center" className={classes.cars} container spacing={3}>
@@ -229,24 +234,24 @@ export default function Crosswalk () {
                       console.log("am here"),
 
                       <Typography style= {{
-                        textAlign: "left"
+                        textAlign: "center"
                       }} variant="h4" color="textSecondary">
-                          No one is near this crosswalk
+                          No car is near this crosswalk
                       </Typography>
                     )
                 )}
                 </Grid>
-                <Grid className={classes.trafficLightGrid} item xs={2}/>
+                <Grid className={classes.emptyTrafficGrid} item xs={2}/>
               </Grid>
             {/* </Paper> */}
           </Grid>
           <Grid  item xs>
             {/* <Paper className={classes.paper}> */}
-              <Typography className={classes.headers} variant="h2" color="textSecondary">
+              <Typography className={classes.headers} variant="h2" color="textPrimary">
                 Pedestrians
                 </Typography>
               <Grid className={classes.pedestrians} container spacing={3}>
-                <Grid className={classes.trafficLightGrid} item xs={2}/>
+                <Grid className={classes.emptyTrafficGrid} item xs={2}/>
                 {/* <Grid className={classes.trafficLightGrid} item xs={2}> */}
                   {/* <div className={classes.trafficLightContainer}>
                     <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
@@ -254,21 +259,38 @@ export default function Crosswalk () {
                     <div className={classes.trafficCircle} color="#2ecc71" boxShadow="0 0 20px 5px #2ecc71"></div>
                   </div> */}
                 {/* </Grid> */}
-                <Grid item xs>
-                  { crosswalkData && (                 
-                      crosswalkData.pedestrians &&
-                    // console.log(crosswalkData),
-                  <CrosswalkTable 
-                  type= {"pedestrians"}
-                  crosswalkData={crosswalkData.pedestrians} />
-                    )}               
+                <Grid
+                  direction="column"
+                  alignItems="center"
+                    justify="center"
+                    style= {{
+                      alignSelf: "center"
+                    }}
+                  item xs>
+                  { crosswalkData && (
+                    console.log(crosswalkData),
+                    crosswalkData.pedestrians ? (
+                      <CrosswalkTable
+                      type= {"pedestrians"}
+                      crosswalkData={crosswalkData.pedestrians} />
+                    ) : (
+                        // console.log("am here"),
+
+                        <Typography style= {{
+                          textAlign: "center"
+                        }} variant="h4" color="textSecondary">
+                            No pedestrian is near this crosswalk
+                        </Typography>
+                      )
+                  )}
                 </Grid>
-                <Grid className={classes.trafficLightGrid} item xs={2}/>
+                <Grid className={classes.emptyTrafficGrid} item xs={2}/>
               </Grid>
             {/* </Paper> */}
           </Grid>
         </Grid>
       </div>
     </div>
+    </React.Fragment>
   );
 }

@@ -75,22 +75,22 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "rgba(0,0,0,.3)"
   },
   startMonitoringButton: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
+    // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    // border: 0,
+    // borderRadius: 3,
+    // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    // color: 'white',
     height: 48,
     padding: '0 30px',
     margin: 10
   },
 
   userButton: {
-    background: 'linear-gradient(45deg, #FE6B8B 5%, #FF8E53 90%)',
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
+    // background: 'linear-gradient(45deg, #FE6B8B 5%, #FF8E53 90%)',
+    // border: 0,
+    // borderRadius: 3,
+    // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    // color: 'white',
     height: 48,
     padding: '0 30px',
     margin: 10
@@ -164,13 +164,13 @@ const TripDetail = () => {
           maxWidth="md"
         >
           <Link to="/crosswalks" style={{ textDecoration: "none" }}>
-            <Button className={classes.startMonitoringButton} size="large">
+            <Button variant="contained" color="primary"  className={classes.startMonitoringButton} size="large">
               Start monitoring!
             </Button>
           </Link>
 
           <Link to="/user" style={{ textDecoration: "none" }}>
-            <Button className={classes.userButton} size="large">
+            <Button variant="contained" color="primary"  className={classes.userButton} size="large">
               User
             </Button>
           </Link>

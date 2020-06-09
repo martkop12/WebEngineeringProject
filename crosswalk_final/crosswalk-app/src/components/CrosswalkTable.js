@@ -381,6 +381,7 @@ export default function CarsTable({type, crosswalkData}) {
   }
   
   return (
+    <React.Fragment>
     <div className={classes.root}>
       <Paper className={classes.paper}>
       
@@ -473,5 +474,6 @@ export default function CarsTable({type, crosswalkData}) {
         label="Dense padding"
       /> */}
     </div>
+    </React.Fragment>
   );
 }

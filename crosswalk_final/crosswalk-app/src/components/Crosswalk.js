@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
-import CarsTable from './CarsTable';
+import CrosswalkTable from './CrosswalkTable';
 import { firebase } from "../firebase";
 
 import { useParams } from "react-router-dom";
@@ -34,10 +34,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   cars: {
-    paddingTop: theme.spacing(4),
+    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(2),
   },
   pedestrians: {
-    paddingTop: theme.spacing(4),
+    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(2),
   },
   paper: {
     padding: theme.spacing(2),
@@ -72,8 +74,13 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     height: "40px",
     width: "40px",
-
   },
+  trafficLightGrid: {
+    textAlign: "-webkit-center"
+  },
+  headers: {
+    textAlign: "center"
+  }
 
 
 }));
@@ -188,67 +195,79 @@ export default function Crosswalk () {
           </Grid>
         </Grid>
       </Paper>
-
       <div style={{ padding: 40 }}>
         <Grid direction="column" container spacing={3}>
+        {/* <Paper className={classes.paper}> */}
+
           <Grid item xs>
-            <Paper className={classes.paper}>
-              <Typography variant="h2" color="textSecondary">
+              <Typography className={classes.headers} variant="h2" color="textSecondary">
                 Cars
                 </Typography>
-              <Grid className={classes.cars} container spacing={3}>
-                <Grid item xs={2}>
+              <Grid justify="center" className={classes.cars} container spacing={3}>
+                <Grid className={classes.trafficLightGrid} item xs={2}>
                   <div className={classes.trafficLightContainer} >
                     <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
                     <div className={classes.trafficCircle} color="#f1c40f" boxShadow="0 0 20px 5px #f1c40f"></div>
                     <div className={classes.trafficCircle} color="#2ecc71" boxShadow="0 0 20px 5px #2ecc71"></div>
                   </div>
                 </Grid>
-                <Grid item xs>
+                <Grid
+                direction="column"
+                alignItems="center"
+                  justify="center"
+                  style= {{
+                    alignSelf: "center"
+                  }}
+                 item xs>
                 { crosswalkData && (
-                  crosswalkData.cars &&
-                  <CarsTable
-                  type= {"cars"}
-                  crosswalkData={crosswalkData.cars} />
-                    )}
+                  console.log(crosswalkData),
+                  crosswalkData.cars ? (
+                    <CrosswalkTable
+                    type= {"cars"}
+                    crosswalkData={crosswalkData.cars} />
+                  ) : (
+                      console.log("am here"),
+
+                      <Typography style= {{
+                        textAlign: "left"
+                      }} variant="h4" color="textSecondary">
+                          No one is near this crosswalk
+                      </Typography>
+                    )
+                )}
                 </Grid>
+                <Grid className={classes.trafficLightGrid} item xs={2}/>
               </Grid>
-
-
-            </Paper>
+            {/* </Paper> */}
           </Grid>
-          <Grid item xs>
-            <Paper className={classes.paper}>
-              <Typography variant="h2" color="textSecondary">
+          <Grid  item xs>
+            {/* <Paper className={classes.paper}> */}
+              <Typography className={classes.headers} variant="h2" color="textSecondary">
                 Pedestrians
                 </Typography>
               <Grid className={classes.pedestrians} container spacing={3}>
-                <Grid item xs={2}>
-                  <div className={classes.trafficLightContainer}>
+                <Grid className={classes.trafficLightGrid} item xs={2}/>
+                {/* <Grid className={classes.trafficLightGrid} item xs={2}> */}
+                  {/* <div className={classes.trafficLightContainer}>
                     <div className={classes.trafficCircle} color="#c0392b" boxShadow="0 0 20px 5px #c0392b" ></div>
                     <div className={classes.trafficCircle} color="#f1c40f" boxShadow="0 0 20px 5px #f1c40f"></div>
                     <div className={classes.trafficCircle} color="#2ecc71" boxShadow="0 0 20px 5px #2ecc71"></div>
-                  </div>
-                </Grid>
+                  </div> */}
+                {/* </Grid> */}
                 <Grid item xs>
-
-                  { crosswalkData && (
-                    
+                  { crosswalkData && (                 
                       crosswalkData.pedestrians &&
-
-                    console.log(crosswalkData),
-                  <CarsTable 
+                    // console.log(crosswalkData),
+                  <CrosswalkTable 
                   type= {"pedestrians"}
                   crosswalkData={crosswalkData.pedestrians} />
-                    )}
-                  
+                    )}               
                 </Grid>
+                <Grid className={classes.trafficLightGrid} item xs={2}/>
               </Grid>
-            </Paper>
+            {/* </Paper> */}
           </Grid>
-
         </Grid>
-
       </div>
     </div>
   );

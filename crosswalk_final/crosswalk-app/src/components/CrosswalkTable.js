@@ -149,8 +149,8 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Cars near ( < 50 m)' },
-  { id: 'crossed', numeric: true, disablePadding: false, label: 'Crossed' },
+  { id: 'name', numeric: false, disablePadding: true, label: 'Near ( < 50 m)' },
+  // { id: 'crossed', numeric: true, disablePadding: false, label: 'Crossed' },
   { id: 'distance', numeric: true, disablePadding: false, label: 'Distance (m)' },
   
 ];
@@ -225,14 +225,14 @@ const useToolbarStyles = makeStyles((theme) => ({
 }));
 
 
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+     width: '90%',
+     marginLeft: "auto",
+     marginRight: "auto"
   },
   paper: {
-    width: '100%',
+    // width: '100%',
     marginBottom: theme.spacing(2),
   },
   table: {
@@ -424,8 +424,8 @@ export default function CarsTable({type, crosswalkData}) {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {objectWithRoute.id}
                       </TableCell>
-                      {/* <TableCell align="right">{row.crossed}</TableCell>
-                      <TableCell align="right">{row.distance}</TableCell> */}
+                      {/* <TableCell align="right">{row.crossed}</TableCell> */}
+                      <TableCell align="right">0</TableCell>
 
                     </TableRow>
                   );

@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
+
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -80,9 +81,10 @@ const useStyles = makeStyles(theme => ({
     // borderRadius: 3,
     // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     // color: 'white',
-    height: 48,
+    height: 58,
     padding: '0 30px',
-    margin: 10
+    margin: 10,
+    fontSize:25
   },
 
   userButton: {
@@ -138,7 +140,7 @@ const TripDetail = () => {
                   SPWS
                   </Typography>
                 <Typography variant="h5" color="inherit" paragraph>
-                  Welcome to our sidewalk monitoring system!
+                  This site is used for monitoring crosswalks in the city
                   </Typography>
                 <Typography color="inherit" paragraph>
                   {/* {moment("12.06.1998").format("DD/MM/YYYY")} -{" "}
@@ -153,27 +155,25 @@ const TripDetail = () => {
         </Paper>
         <Container
           className={classes.cardGrid}
-          style={
-            {
-              height: "80vh",
-              alignContent: "center"
-
-            }
-
-          }
+          style={{
+              alignContent: "center",
+              alignSelf: "center",
+              justifyContent: "center"
+            }}
           maxWidth="md"
         >
           <Link to="/crosswalks" style={{ textDecoration: "none" }}>
-            <Button variant="contained" color="primary"  className={classes.startMonitoringButton} size="large">
+            <Button variant="contained" color="primary" className={classes.startMonitoringButton} size="large">
               Start monitoring!
+
             </Button>
           </Link>
-
-          <Link to="/user" style={{ textDecoration: "none" }}>
-            <Button variant="contained" color="primary"  className={classes.userButton} size="large">
+          <br></br>
+          {/* <Link to="/user" style={{ textDecoration: "none" }}>
+            <Button variant="contained" color="primary" className={classes.userButton} size="large">
               User
             </Button>
-          </Link>
+          </Link> */}
 
         </Container>
       </main>

@@ -68,14 +68,13 @@ const Crosswalks = () => {
   const { crosswalks, setCrosswalks } = useCrosswalks();
   console.log(crosswalks)
 
-  const crosswalkss= undefined;
+  const crosswalkss = undefined;
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Header />
       <main>
-        {/* {console.log(myPosition)} */}
         <div className={classes.customGrid}>
           <Grid
             container
@@ -83,10 +82,10 @@ const Crosswalks = () => {
             justify="center"
             alignItems="center"
             spacing={1}>
-                  {crosswalks && (
-                    <Paper className={classes.paper}>
-                    <Grid className={classes.crosswalkList} item  >
-                    <List className={classes.list}>
+            {crosswalks && (
+              <Paper className={classes.paper}>
+                <Grid className={classes.crosswalkList} item  >
+                  <List className={classes.list}>
                     {crosswalks.map(crosswalk => (
                       <Link className={classes.link} to={
                         {
@@ -104,13 +103,13 @@ const Crosswalks = () => {
 
                       </Link>
                     ))}
-                    </List>
-                    </Grid>
-                    </Paper> 
-                  )}
+                  </List>
+                </Grid>
+              </Paper>
+            )}
             <Grid item xs={6} sm={8}>
               {crosswalks ? (
-                 (crosswalks[0] &&
+                (crosswalks[0] &&
                   <MyMapComponent
                     isMarkerShown
                     lat={crosswalks[0].latitude}
@@ -120,13 +119,13 @@ const Crosswalks = () => {
                     containerElement={<div style={{ height: `600px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                   />
-                  )
+                )
               ) : (
-                
-                  <Typography style= {{
+
+                  <Typography style={{
                     textAlign: "center"
                   }} variant="h4" color="textSecondary">
-                      No crosswalks registered
+                    No crosswalks registered
                   </Typography>
                 )}
             </Grid>
@@ -144,6 +143,7 @@ const useStyles = makeStyles(theme => ({
   customGrid: {
     padding: theme.spacing(1),
     flexGrow: 1,
+    width:'100%'
     //   backgroundColor: theme.palette.text.secondary
   },
   card: {

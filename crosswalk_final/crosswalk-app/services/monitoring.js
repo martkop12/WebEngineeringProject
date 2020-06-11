@@ -44,14 +44,14 @@ clientInformationReceiver.on('send_client_info', (req, cb) => {
           // if pedestrian is already in crosswalk pedestrians array
           if (crosswalkData.pedestrians.includes(clientInformation.id.toString())) {
             // if client leave the crosswalk area then remove it from crosswalk pedestrians array
-            if (!distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
+            if (!distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.05) {
               let updateDoc = db.collection('monitor').doc(crosswalk.id.toString()).update({
                 pedestrians: admin.firestore.FieldValue.arrayRemove(clientInformation.id.toString())
               })
             }
           } else {
             // if pedestrian is not in crosswalk pedetrians array and he is in crosswalk array than push him to the pedestrians array
-            if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
+            if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.05) {
               let updateDoc = db.collection('monitor').doc(crosswalk.id.toString()).update({
                 pedestrians: admin.firestore.FieldValue.arrayUnion(clientInformation.id.toString())
               })
@@ -61,7 +61,7 @@ clientInformationReceiver.on('send_client_info', (req, cb) => {
 
         // if client is car then send clientiformation to notification service
         if (clientInformation.info === 'car') {
-          if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
+          if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.05) {
             notifyCarRequester.send({
               type: 'crosswalk_information',
               crosswalk: crosswalkData
@@ -70,7 +70,7 @@ clientInformationReceiver.on('send_client_info', (req, cb) => {
         }
 
         // send information to information service to store location if client is in the crosswlak distance
-        if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.1) {
+        if (distanceBetweenTwoLocations(crosswalkData.location, clientInformation.location) < 0.05) {
           var clientData = clientInformation;
           clientData['time'] = new Date();
           clientData['crosswalkID'] = crosswalk.id;
@@ -107,7 +107,7 @@ function distanceBetweenTwoLocations(current_location, end_location) {
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var distance = R * c; // Distance in km
 
-  return distance * 1000;
+  return distance;
 }
 
 // helper function

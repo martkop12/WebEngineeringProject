@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import SignUp from '../components/SignUp';
 import {firebase} from '../services/firebase';
-import { AuthContext, useFirebaseAuthentication} from '../services/Auth';
+
 
 const useAuth = () => {
   const fireUser = firebase.auth().currentUser;

@@ -20,8 +20,8 @@ const send = async (uid,data,type) => {
         id: uid,
         info: type,
         location: {
-            latitude: parseFloat(data[0]),
-            longitude: parseFloat(data[1]),
+            latitude: parseFloat(data[1]),
+            longitude: parseFloat(data[0]),
         }}),})
     .then(rsp =>{})
     .catch((err)=>{
@@ -30,20 +30,24 @@ const send = async (uid,data,type) => {
 }
 
 export const simulate = async (uid) => {
-    let sendData2 = [48.935532,21.912398]
+    let sendData2 = [21.912398,48.935532];
     if(car_data.length > 0){
         let sendData = car_data.shift();
         console.log(sendData);
         send(uid,sendData,'car');
     }
     if(ped1_data.length > 0){
-        let sendData = ped1_data.shift();
-        send(ped1,sendData,'pedestrian');
+        //let sendData = ped1_data.shift();
+        send(ped1,sendData2,'pedestrian');
     }
     if(ped2_data.length > 0){
-        let sendData = ped2_data.shift();
-        send(ped2,sendData,'pedestrian');
+        //let sendData = ped2_data.shift();
+        send(ped2,sendData2,'pedestrian');
     } 
+
+    if(car_data.length === 0){
+        return true;
+    }
     console.log(test++);
 }
 

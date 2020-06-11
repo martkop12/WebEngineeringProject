@@ -41,12 +41,11 @@ export default function SendingContent(props) {
     const classes = useStyles();
     const names = ['Vehicle', 'Pedestrian', 'Simulation'];
     const typo = ['car','pedestrian'];
-    const [state,setState] = useState(false);
     const [crosswalks, setCrosswalks] = useState([]);
 
 
     const _getLocationAsync = async () => {
-        let location = await navigator.geolocation.getCurrentPosition((position)=>{
+        await navigator.geolocation.getCurrentPosition((position)=>{
           fetch('/api/world', {
             method: 'POST',
             headers: {
@@ -74,10 +73,10 @@ export default function SendingContent(props) {
             setCrosswalks([data]);
         });
         let myvar;
-        if(props.data.opt == 2){
-          myvar = setInterval(simulate, 3000, currentUser.uid);
+        if(props.data.opt === 2){
+          myvar = setInterval(simulate, 1000, currentUser.uid);
         }else{
-          myvar = setInterval(_getLocationAsync,3000);
+          myvar = setInterval(_getLocationAsync,1000);
         }
         
         return () => {          
@@ -103,7 +102,7 @@ export default function SendingContent(props) {
            <Grid item xs={12} sm={6}>
                <div className={classes.paper}>
                  <Typography variant="h5" className={classes.title}>Notifications:</Typography>
-                 <Notification vehicle={props.data.opt!=1? true : false} data={crosswalks}/>
+                 <Notification vehicle={props.data.opt!==1? true : false} data={crosswalks}/>
                </div>
            </Grid>
            </Grid>);

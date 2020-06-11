@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import {Paper, Card} from '@material-ui/core';
+import React from 'react';
+import {Paper} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import NotifCard from './NotifCard';
 import Typography from '@material-ui/core/Typography';

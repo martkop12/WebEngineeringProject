@@ -4,10 +4,9 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import * as firebase from "firebase/app";
-import { Redirect, withRouter } from "react-router";
-
+import { Redirect} from "react-router";
 import { AuthContext } from "../services/Auth";
-import { firebase as localFirebase } from "../services/firebase";
+
 
 
 
@@ -57,7 +56,6 @@ export default function SignIn({ history }) {
   const { currentUser } = useContext(AuthContext);
 
   if (currentUser) {
-    console.log(currentUser)
     return <Redirect to="/" />;
   }
 
@@ -102,5 +100,3 @@ export default function SignIn({ history }) {
     </Container>
   );
 }
-
-//export default withRouter(SignIn);

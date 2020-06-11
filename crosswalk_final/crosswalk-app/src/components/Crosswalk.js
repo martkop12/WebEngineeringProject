@@ -172,10 +172,8 @@ export default function Crosswalk () {
       <Paper
         className={classes.mainFeaturedPost}
         style={{ backgroundImage: `url(${ImageMain})` }}
-        // style={{ backgroundImage: `url(https://images.unsplash.com/photo-1583348272401-ebb27d45709a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80)` }}
       >
         {/* Increase the priority of the hero background image */}
-        {/* {<img style={{ display: "none" }} src="https://images.unsplash.com/photo-1583348272401-ebb27d45709a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80" alt="img" />} */}
         {<img style={{ display: "none" }} src={ImageMain} alt="img" />}
         <div className={classes.overlay} />
 
@@ -198,8 +196,6 @@ export default function Crosswalk () {
       </Paper>
       <div style={{ padding: 40 }}>
         <Grid direction="column"  spacing={3}>
-        {/* <Paper className={classes.paper}> */}
-
           <Grid item xs>
               <Typography className={classes.headers} variant="h3" color="textPrimary">
                 Cars
@@ -221,7 +217,6 @@ export default function Crosswalk () {
                   }}
                  item xs>
                 { crosswalkData && (
-                  // console.log(crosswalkData),
                   crosswalkData.cars ? (
                     <CrosswalkTable
                     type= {"cars"}
@@ -238,10 +233,8 @@ export default function Crosswalk () {
                 </Grid>
                 <Grid className={classes.emptyTrafficGrid} item xs={2}/>
               </Grid>
-            {/* </Paper> */}
           </Grid>
           <Grid  item xs>
-            {/* <Paper className={classes.paper}> */}
               <Typography className={classes.headers} variant="h3" color="textPrimary">
                 Pedestrians
                 </Typography>
@@ -256,7 +249,6 @@ export default function Crosswalk () {
                     }}
                   item xs>
                   { crosswalkData && (
-                    // console.log(crosswalkData),
                     crosswalkData.pedestrians ? (
                       <CrosswalkTable
                       type= {"pedestrians"}
@@ -273,7 +265,6 @@ export default function Crosswalk () {
                 </Grid>
                 <Grid className={classes.emptyTrafficGrid} item xs={2}/>
               </Grid>
-            {/* </Paper> */}
           </Grid>
         </Grid>
       </div>

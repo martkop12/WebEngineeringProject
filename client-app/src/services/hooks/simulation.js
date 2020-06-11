@@ -30,19 +30,19 @@ const send = async (uid,data,type) => {
 }
 
 export const simulate = async (uid) => {
-    let sendData2 = [21.912398,48.935532];
+    //let sendData2 = [21.912398,48.935532];
     if(car_data.length > 0){
         let sendData = car_data.shift();
         console.log(sendData);
         send(uid,sendData,'car');
     }
     if(ped1_data.length > 0){
-        //let sendData = ped1_data.shift();
-        send(ped1,sendData2,'pedestrian');
+        let sendData = ped1_data.shift();
+        send(ped1,sendData,'pedestrian');
     }
     if(ped2_data.length > 0){
-        //let sendData = ped2_data.shift();
-        send(ped2,sendData2,'pedestrian');
+        let sendData = ped2_data.shift();
+        send(ped2,sendData,'pedestrian');
     } 
 
     if(car_data.length === 0){

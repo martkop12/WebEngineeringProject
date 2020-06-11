@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
 import Header from "./layout/Header";
 import CrosswalkTable from './CrosswalkTable';
+import { firebase } from "../firebase";
 
 import { useParams } from "react-router-dom";
 import { useCrosswalk, useCrosswalkLight } from '../hooks/crosswalk';
@@ -86,16 +87,15 @@ export default function Crosswalk () {
   const { crosswalkId } = useParams();
   // console.log(crosswalkId)
   const { crosswalkData } = useCrosswalk(crosswalkId);
-  console.log(crosswalkData)
 
   const { crosswalkLight } = useCrosswalkLight(crosswalkId);
-  console.log(crosswalkLight)
   const [activeLight, setActiveLight] = useState(0);
   const previousActive = usePrevious(activeLight);
+  const [crossLoc, setCrossLoc ] = useState(null);
 
   function usePrevious(value) {
     const ref = React.useRef();
-    React.useEffect(() => {
+    useEffect(() => {
       ref.current = value;
     });
     return ref.current;
@@ -105,7 +105,7 @@ export default function Crosswalk () {
   const circles = document.getElementsByClassName(classes.trafficCircle)
   // let activeLight = 0;
   let currentLight = circles[activeLight];
-  const [checked, setChecked] = React.useState([1]);
+  const [checked, setChecked] = useState([1]);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -120,7 +120,16 @@ export default function Crosswalk () {
     setChecked(newChecked);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    firebase.firestore().collection(`monitor`).doc(`${crosswalkId}`).onSnapshot((snapshot) => {
+      setCrossLoc(snapshot.data().location)
+      console.log(snapshot.data().location)
+      });
+  },[]);
+
+
+  
+  useEffect(() => {
     crosswalkLight &&(
       crosswalkLight.stateOfLight &&(
         // getLight(crosswalkLight) !== activeLight &&(
@@ -208,6 +217,7 @@ export default function Crosswalk () {
                   crosswalkData.cars ? (
                     <CrosswalkTable
                     type= {"cars"}
+                    crossLocation= {crossLoc}
                     crosswalkData={crosswalkData.cars} />
                   ) : (
                       <Typography style= {{

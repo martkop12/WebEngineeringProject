@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -16,6 +16,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import CrosswalkMarker from "./CrosswalkMarker"
 import Fade from '@material-ui/core/Fade';
+
 import {
   withScriptjs,
   withGoogleMap,
@@ -23,104 +24,32 @@ import {
   Marker
 } from "react-google-maps";
 
-const MyMapComponent = withScriptjs(withGoogleMap((props) =>{
-  console.log(props.uid)
-  console.log(props.objectWithRoute)
+const MyMapComponent = withScriptjs(withGoogleMap((props) => {
+
+  const markers = props.objectWithRoute.route.map(route =>
+    <Marker
+      key={Math.random()}
+      position={{ lat: parseFloat(route.latitude), lng: parseFloat(route.longitude) }}
+    // {...console.log("latitude SU ",route.latitude)}
+    />
 
 
-  var userRoute = [
-      {
-        position : {
-            lat: "48.935134",
-            lng: "21.906828",
-            key : "123542165489",
-          }
-      },
-      {
-        
-        position : {
-        lat: "48.935109",
-        lng: "21.906844",
-        key : "24545",
-      },
-    },
-    {
-      
-      position : {
-        lat: "48.935077",
-        lng: "21.906847",
-        key : "3546456",
-      },
-    },
-    {
-      
-      position : {
-        lat: "48.935040",
-        lng: "21.906796",
-        uid : "42453456",
-      },
-    },
-    {
-      
-      position : {
-        lat: "48.935042",
-        lng: "21.906775",
-        key : "554687",
-      },
-    },
-    {
-      
-      position : {
-        lat: "48.935042",
-        lng: "21.906756",
-        key : "6456456",
-      },
-    }
-  ]
-
-  // console.log(userRoute)
-
-  const markers = props.objectWithRoute.route.map( route => 
-                  <Marker
-                    key={Math.random()}
-                    position={{lat: parseFloat(route.latitude), lng: parseFloat(route.longitude)}}
-                    // {...console.log("latitude SU ",route.latitude)}
-                  />
-                 
-
-                  );
-                  console.log("MARKERS SU ",markers)
+  );
   return (
-        <GoogleMap
-          defaultZoom={18}
-          defaultCenter={{ lat: parseFloat(props.objectWithRoute.route[0].latitude), lng:parseFloat(props.objectWithRoute.route[0].longitude) }}
-        >
-          {props.isMarkerShown && (
-          <Marker key={Math.random()} position={{ lat: parseFloat(props.objectWithRoute.route[0].latitude), lng:parseFloat(props.objectWithRoute.route[0].longitude) }} />
-          )}
-          
-          {markers}
-      </GoogleMap>
-    );
-  }
+    <GoogleMap
+      defaultZoom={18}
+      defaultCenter={{ lat: parseFloat(props.objectWithRoute.route[0].latitude), lng: parseFloat(props.objectWithRoute.route[0].longitude) }}
+    >
+      {props.isMarkerShown && (
+        <Marker key={Math.random()} position={{ lat: parseFloat(props.objectWithRoute.route[0].latitude), lng: parseFloat(props.objectWithRoute.route[0].longitude) }} />
+      )}
+
+      {markers}
+    </GoogleMap>
+  );
+}
 ))
 
-
-function createData(uid, name, crossed, distance, ) {
-  return {uid, name, crossed, distance};
-}
-
-
-const rows = [
-  createData(1,'Car Cupcake', 305, 3.7),
-  createData(2,'Car Donut', 452, 25.0),
-  createData(3,'Car Eclair', 262, 16.0),
-  createData(4,'Car Frozen yoghurt', 159, 6.0),
-  createData(5,'Car Gingerbread', 356, 16.0),
-  createData(6,'Car Honeycomb', 408, 3.2),
-  createData(7,'Car Ice cream sandwich', 237, 9.0),
-
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -149,23 +78,23 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Near ( < 50 m)' },
+  { id: 'name', numeric: false, disablePadding: true, label: 'Near ( < 100 m)' },
   // { id: 'crossed', numeric: true, disablePadding: false, label: 'Crossed' },
   { id: 'distance', numeric: true, disablePadding: false, label: 'Distance (m)' },
-  
+
 ];
 
 function EnhancedTableHead(props) {
-  const { classes,  order, orderBy, onRequestSort } = props;
+  const { classes, order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
 
   return (
     <TableHead style={{
-        backgroundColor: "#bdbdbd",
-        
-        }}>
+      backgroundColor: "#bdbdbd",
+
+    }}>
       <TableRow>
         <TableCell padding="checkbox">
         </TableCell>
@@ -204,32 +133,11 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
-  title: {
-    flex: '1 1 100%',
-  },
-}));
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
-     width: '90%',
-     marginLeft: "auto",
-     marginRight: "auto"
+    width: '90%',
+    marginLeft: "auto",
+    marginRight: "auto"
   },
   paper: {
     // width: '100%',
@@ -262,24 +170,31 @@ const useStyles = makeStyles((theme) => ({
     width: 1,
   },
 }));
- 
-export default function CarsTable({type, crosswalkData}) {
-  console.log(type);
-  console.log(crosswalkData);
+
+export default function CarsTable({ type, crosswalkData, crossLocation }) {
+  const classes = useStyles();
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('distance');
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(true);
+  const result = group(crosswalkData, 'id');
+
+  //Map modal part
+  const [open, setOpen] = useState(false);
+  const [uid, setUid] = useState(undefined);
+  const [objectWithRoute, setObjectWithRoute] = useState(undefined);
+
 
   function group(arr, key) {
-    return [...arr.reduce( (acc, o) => 
-        acc.set(o[key], (acc.get(o[key]) || []).concat(o))
-    , new Map).values()];
+    return [...arr.reduce((acc, o) =>
+      acc.set(o[key], (acc.get(o[key]) || []).concat(o))
+      , new Map).values()];
   }
-
-  const result = group(crosswalkData, 'id');
-  console.log(result);
-  console.log("result je ",result.length)
 
   var objectsWithRoute = [];
 
-  if(result) {
+  if (result) {
     result.forEach(getObjectWithRoute)
   }
 
@@ -288,39 +203,24 @@ export default function CarsTable({type, crosswalkData}) {
       id: null,
       route: [],
     };
-    let route=[];
-    console.log("Novy obj je ", item)
-    object.id= item[0].id;
-    item.forEach(function(entry) {
+    let route = [];
+    object.id = item[0].id;
+    item.forEach(function (entry) {
       // console.log("Prechadzam",entry);
       object.route.push(entry.location)
     });
-    
+
     objectsWithRoute.push(object)
   }
 
-  console.log("Obj with routes",objectsWithRoute);
-
-  
-  console.log(result[1]);
   let carOne = [];
 
   result[0].forEach(getLocations)
   function getLocations(item, index, arr) {
     carOne.push(item.location)
   }
-  console.log(carOne)
-
-
-
 
   // const carsOrPedestrians = props;
-  const classes = useStyles();
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('distance');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(true);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -328,36 +228,11 @@ export default function CarsTable({type, crosswalkData}) {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
- 
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
- 
 
- //Map modal part
-  const [open, setOpen] = React.useState(false);
-  const [uid, setUid] = React.useState(undefined);
-  const [objectWithRoute, setObjectWithRoute] = React.useState(undefined);
 
-  
+
   const handleClose = () => {
     setUid(undefined);
     setOpen(false);
@@ -365,96 +240,92 @@ export default function CarsTable({type, crosswalkData}) {
 
   const handleRowClick = (row) => {
     setUid(row.id);
-    if(objectsWithRoute){
-      console.log("Exist",objectsWithRoute);
-      console.log("Uid",row.id);
-
-      console.log("?",objectWithRoute);
+    if (objectsWithRoute) {
       setObjectWithRoute(objectsWithRoute.find(x => x.id === row.id));
-      console.log(objectsWithRoute.find(x => x.id === row.id))
-      console.log("Gere",objectWithRoute);
 
     };
     ;
     setOpen(true);
     console.log('We need to get the details for ', row);
   }
-  
+
   return (
     <React.Fragment>
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-      
-        <TableContainer>
-          <Table
-            // onCellClick={handleCellClick()}
-            className={classes.table}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-            
-            aria-label="enhanced table"
-          >
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={objectsWithRoute.length}
-            />
-            <TableBody>
-              {stableSort(objectsWithRoute, getComparator(order, orderBy))
-                .map((objectWithRoute, index) => {
-                  const isItemSelected = isSelected(objectWithRoute.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+      <div className={classes.root}>
+        <Paper className={classes.paper}>
 
-                  return (
-                    <TableRow
-                      hover
-                      
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={objectWithRoute.id}
-                      selected={isItemSelected}
-                      onClick={() => handleRowClick(objectWithRoute)}
-                    >
-                      <TableCell padding="checkbox">
-                        
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {objectWithRoute.id}
-                      </TableCell>
-                      {/* <TableCell align="right">{row.crossed}</TableCell> */}
-                      <TableCell align="right">0</TableCell>
+          <TableContainer>
+            <Table
+              // onCellClick={handleCellClick()}
+              className={classes.table}
+              aria-labelledby="tableTitle"
+              size={dense ? 'small' : 'medium'}
 
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-     
-      </Paper>
+              aria-label="enhanced table"
+            >
+              <EnhancedTableHead
+                classes={classes}
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+                rowCount={objectsWithRoute.length}
+              />
+              <TableBody>
+                {stableSort(objectsWithRoute, getComparator(order, orderBy))
+                  .map((objectWithRoute, index) => {
+                    const isItemSelected = isSelected(objectWithRoute.id);
+                    const labelId = `enhanced-table-checkbox-${index}`;
 
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className={classes.mapModal}>
-            <h2 id="transition-modal-title">
-            { uid}
-            </h2>
-            <MyMapComponent
+                    return (
+                      <TableRow
+                        hover
+
+                        role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={objectWithRoute.id}
+                        selected={isItemSelected}
+                        onClick={() => handleRowClick(objectWithRoute)}
+                      >
+                        <TableCell padding="checkbox">
+
+                        </TableCell>
+                        <TableCell component="th" id={labelId} scope="row" padding="none">
+                          {objectWithRoute.id}
+                        </TableCell>
+                        {/*TU JE TO  */}
+                        {objectWithRoute.route[objectWithRoute.route.length -1] != null & crossLocation != null &&
+                          <TableCell align="right">{distanceBetweenTwoLocations(objectWithRoute.route[objectWithRoute.route.length-1], crossLocation)}</TableCell>
+                        }
+
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+        </Paper>
+
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={open}>
+            <div className={classes.mapModal}>
+              <h2 id="transition-modal-title">
+                {uid}
+              </h2>
+              <MyMapComponent
                 isMarkerShown
                 lat={14}
                 lng={45}
@@ -465,15 +336,44 @@ export default function CarsTable({type, crosswalkData}) {
                 containerElement={<div style={{ height: `400px` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
               />
-            <p id="transition-modal-description">react-transition-group animates me.</p>
-          </div>
-        </Fade>
-      </Modal>
-      {/* <FormControlLabel
+              <p id="transition-modal-description">react-transition-group animates me.</p>
+            </div>
+          </Fade>
+        </Modal>
+        {/* <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       /> */}
-    </div>
+      </div>
     </React.Fragment>
   );
+}
+
+function distanceBetweenTwoLocations(current_location, end_location) {
+  // returns distance in KM
+  console.log(end_location)
+
+  var lat1 = current_location.latitude;
+  var lon1 = current_location.longitude;
+  var lat2 = end_location.latitude;
+  var lon2 = end_location.longitude;
+
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+  var dLon = deg2rad(lon2 - lon1);
+
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2)
+    ;
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var distance = R * c; // Distance in km
+
+  return distance * 1000;
+}
+
+// helper function
+function deg2rad(deg) {
+  return deg * (Math.PI / 180)
 }

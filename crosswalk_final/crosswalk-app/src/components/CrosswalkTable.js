@@ -215,7 +215,7 @@ export default function CarsTable({ type, crosswalkData, crossLocation }) {
 
   let carOne = [];
 
-  result[0].forEach(getLocations)
+  // result[0].forEach(getLocations)
   function getLocations(item, index, arr) {
     carOne.push(item.location)
   }

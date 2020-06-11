@@ -7,7 +7,7 @@ import SendingContent from './SendingContent';
 import OpButtons from './OpButtons';
 
 import { makeStyles } from '@material-ui/core/styles';
-import { firebase as localFirebase } from "../services/firebase";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,15 +43,14 @@ export default function MainContent() {
     setOpt(id);
   }
 
-  
-  
-    
   const HeaderData = () => {
         if(!start){
         return (<Typography variant="h3" className={classes.title} >WELCOME TO SPWS APP</Typography>);
         }else{
           return null;
         }}
+
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>

@@ -5,6 +5,8 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import LoadingCircle from './LoadingCircle';
+import Notification from './Notification';
+import {simulate} from '../services/hooks/simulation';
 
 import socketIOClient from "socket.io-client";
 import {AuthContext} from "../services/Auth";
@@ -38,9 +40,8 @@ export default function SendingContent(props) {
     const { currentUser } = useContext(AuthContext);    
     const classes = useStyles();
     const names = ['Vehicle', 'Pedestrian', 'Simulation'];
-
-    const [state,setState] = useState({location: null,
-        errorMessage: null,});
+    const typo = ['car','pedestrian'];
+    const [state,setState] = useState(false);
     const [crosswalks, setCrosswalks] = useState([]);
 
 
@@ -53,10 +54,10 @@ export default function SendingContent(props) {
                 },
                 body: JSON.stringify({
                 id: currentUser.uid,
-                info: 'car',
+                info: typo[props.data.opt],
                 location: {
-                    latitude: 48.25/*position.coords.latitude*/,
-                    longitude: 25.22/*position.coords.longitude*/,
+                    latitude: 48.25,
+                    longitude: 25.22,
                 }}),})
             .then(rsp =>{})
             .catch((err)=>{
@@ -69,12 +70,18 @@ export default function SendingContent(props) {
     useEffect(()=>{
         const socket = socketIOClient(ENDPOINT);
         socket.on("notifyInformation", data => {
-            console.log('response:',data);
-            setCrosswalks(data);
+            console.log(data);
+            setCrosswalks([data]);
         });
-        let myvar = setInterval(_getLocationAsync,2000);
-        return () => {
-            clearInterval(myvar);
+        let myvar;
+        if(props.data.opt == 2){
+          simulate(currentUser.uid);
+        }else{
+          myvar = setInterval(_getLocationAsync,2000);
+        }
+        
+        return () => {          
+          clearInterval(myvar);
         }
     })
 
@@ -96,6 +103,7 @@ export default function SendingContent(props) {
            <Grid item xs={12} sm={6}>
                <div className={classes.paper}>
                  <Typography variant="h5" className={classes.title}>Notifications:</Typography>
+                 <Notification vehicle={props.data.opt!=1? true : false} data={crosswalks}/>
                </div>
            </Grid>
            </Grid>);

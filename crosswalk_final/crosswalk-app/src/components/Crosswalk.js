@@ -7,6 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from "@material-ui/core/Typography";
 import Header from "./layout/Header";
 import CrosswalkTable from './CrosswalkTable';
+import ImageMain from '../res/images/253383.jpg';
+
 import { firebase } from "../firebase";
 
 import { useParams } from "react-router-dom";
@@ -78,6 +80,9 @@ const useStyles = makeStyles((theme) => ({
   },
   headers: {
     textAlign: "center"
+  },
+  typographyTitle: {
+    padding: theme.spacing(4)
   }
 
 
@@ -166,10 +171,10 @@ export default function Crosswalk () {
       <Header />
       <Paper
         className={classes.mainFeaturedPost}
-        style={{ backgroundImage: `url(https://st3.depositphotos.com/16229314/19138/v/1600/depositphotos_191385946-stock-illustration-street-crossroad-vector-cartoon-illustration.jpg)` }}
+        style={{ backgroundImage: `url(${ImageMain})` }}
       >
         {/* Increase the priority of the hero background image */}
-        {<img style={{ display: "none" }} src="https://st3.depositphotos.com/16229314/19138/v/1600/depositphotos_191385946-stock-illustration-street-crossroad-vector-cartoon-illustration.jpg" alt="img" />}
+        {<img style={{ display: "none" }} src={ImageMain} alt="img" />}
         <div className={classes.overlay} />
 
         <Grid >
@@ -177,10 +182,10 @@ export default function Crosswalk () {
             <div className={classes.mainFeaturedPostContent}>
               <Typography
                 component="h1"
-                variant="h3"
-                align="center"
+                variant="h2"
+                align="left"
                 color="textPrimary"
-                // className={classes.typography}
+                className={classes.typographyTitle}
                 gutterBottom
               >
                 Crosswalk
@@ -191,10 +196,8 @@ export default function Crosswalk () {
       </Paper>
       <div style={{ padding: 40 }}>
         <Grid direction="column"  spacing={3}>
-        {/* <Paper className={classes.paper}> */}
-
           <Grid item xs>
-              <Typography className={classes.headers} variant="h2" color="textPrimary">
+              <Typography className={classes.headers} variant="h3" color="textPrimary">
                 Cars
                 </Typography>
               <Grid justify="center" className={classes.cars} container spacing={3}>
@@ -214,7 +217,6 @@ export default function Crosswalk () {
                   }}
                  item xs>
                 { crosswalkData && (
-                  // console.log(crosswalkData),
                   crosswalkData.cars ? (
                     <CrosswalkTable
                     type= {"cars"}
@@ -231,11 +233,9 @@ export default function Crosswalk () {
                 </Grid>
                 <Grid className={classes.emptyTrafficGrid} item xs={2}/>
               </Grid>
-            {/* </Paper> */}
           </Grid>
           <Grid  item xs>
-            {/* <Paper className={classes.paper}> */}
-              <Typography className={classes.headers} variant="h2" color="textPrimary">
+              <Typography className={classes.headers} variant="h3" color="textPrimary">
                 Pedestrians
                 </Typography>
               <Grid justify="center" className={classes.pedestrians} container spacing={3}>
@@ -249,7 +249,6 @@ export default function Crosswalk () {
                     }}
                   item xs>
                   { crosswalkData && (
-                    // console.log(crosswalkData),
                     crosswalkData.pedestrians ? (
                       <CrosswalkTable
                       type= {"pedestrians"}
@@ -266,7 +265,6 @@ export default function Crosswalk () {
                 </Grid>
                 <Grid className={classes.emptyTrafficGrid} item xs={2}/>
               </Grid>
-            {/* </Paper> */}
           </Grid>
         </Grid>
       </div>

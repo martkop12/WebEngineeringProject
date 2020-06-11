@@ -1,25 +1,16 @@
-import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
-
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-// import Skeleton from "@material-ui/lab/Skeleton";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-// import { useEntries } from "../hooks/entries";
-// import { useTrip } from "../hooks/trips";
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
+import ImageMain from '../res/images/3519.jpg';
 
-import { typography } from "@material-ui/system";
-// import moment from "moment";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -58,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   },
   mainFeaturedPost: {
     position: "relative",
-    backgroundColor: theme.palette.grey[800],
+    backgroundColor: theme.palette.grey[850],
     backgroundSize: "contain",
     height: 400,
     color: theme.palette.common.white,
@@ -76,11 +67,6 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "rgba(0,0,0,.3)"
   },
   startMonitoringButton: {
-    // background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    // border: 0,
-    // borderRadius: 3,
-    // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    // color: 'white',
     height: 58,
     padding: '0 30px',
     margin: 10,
@@ -88,11 +74,7 @@ const useStyles = makeStyles(theme => ({
   },
 
   userButton: {
-    // background: 'linear-gradient(45deg, #FE6B8B 5%, #FF8E53 90%)',
-    // border: 0,
-    // borderRadius: 3,
-    // boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    // color: 'white',
+
     height: 48,
     padding: '0 30px',
     margin: 10
@@ -121,10 +103,10 @@ const TripDetail = () => {
 
         <Paper
           className={classes.mainFeaturedPost}
-          style={{ backgroundImage: `url(https://www.lightguardsystems.com/wp-content/uploads/2015/01/Solar-wireless-RRFB-crosswalk-graphic.jpg)` }}
+          style={{ backgroundImage: `url(${ImageMain})` }}
         >
           {/* Increase the priority of the hero background image */}
-          {<img style={{ display: "none" }} src="https://www.lightguardsystems.com/wp-content/uploads/2015/01/Solar-wireless-RRFB-crosswalk-graphic.jpg" alt="img" />}
+          {<img style={{ display: "none" }} src={ImageMain} alt="img" />}
           <div className={classes.overlay} />
 
           <Grid container>
@@ -132,23 +114,17 @@ const TripDetail = () => {
               <div className={classes.mainFeaturedPostContent}>
                 <Typography
                   component="h1"
-                  variant="h3"
+                  variant="h2"
                   color="inherit"
                   // className={classes.typography}
                   gutterBottom
                 >
                   SPWS
                   </Typography>
-                <Typography variant="h5" color="inherit" paragraph>
+                <Typography variant="h4" color="inherit" paragraph>
                   This site is used for monitoring crosswalks in the city
                   </Typography>
-                <Typography color="inherit" paragraph>
-                  {/* {moment("12.06.1998").format("DD/MM/YYYY")} -{" "}
-                    {moment("12.06.1998").format("DD/MM/YYYY")} */}
-
-                  {/* //  {"12.06.1998"} -{" "}
-                    // {"12.06.1998"} */}
-                </Typography>
+                
               </div>
             </Grid>
           </Grid>
@@ -174,7 +150,6 @@ const TripDetail = () => {
               User
             </Button>
           </Link> */}
-
         </Container>
       </main>
       <Footer />

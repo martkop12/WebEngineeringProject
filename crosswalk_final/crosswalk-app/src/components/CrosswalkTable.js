@@ -322,7 +322,7 @@ export default function CarsTable({ type, crosswalkData, crossLocation }) {
         >
           <Fade in={open}>
             <div className={classes.mapModal}>
-              <h2 id="transition-modal-title">
+              <h2 >
                 Route 
                 {/* {uid} */}
               </h2>
@@ -334,7 +334,7 @@ export default function CarsTable({ type, crosswalkData, crossLocation }) {
                 objectWithRoute={objectWithRoute}
                 googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
                 loadingElement={<div style={{ height: `100%` }} />}
-                containerElement={<div style={{ height: `500px` }} />}
+                containerElement={<div style={{ height: `550px` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
               />
               {/* <p id="transition-modal-description">Route of this {type}</p> */}

@@ -87,6 +87,7 @@ export default function Crosswalk () {
   const { crosswalkId } = useParams();
   // console.log(crosswalkId)
   const { crosswalkData } = useCrosswalk(crosswalkId);
+  // console.log(crosswalkData)
 
   const { crosswalkLight } = useCrosswalkLight(crosswalkId);
   const [activeLight, setActiveLight] = useState(0);
@@ -237,7 +238,7 @@ export default function Crosswalk () {
               <Typography className={classes.headers} variant="h2" color="textPrimary">
                 Pedestrians
                 </Typography>
-              <Grid className={classes.pedestrians} container spacing={3}>
+              <Grid justify="center" className={classes.pedestrians} container spacing={3}>
                 <Grid className={classes.emptyTrafficGrid} item xs={2}/>
                 <Grid
                   direction="column"
@@ -252,6 +253,7 @@ export default function Crosswalk () {
                     crosswalkData.pedestrians ? (
                       <CrosswalkTable
                       type= {"pedestrians"}
+                      crossLocation= {crossLoc}
                       crosswalkData={crosswalkData.pedestrians} />
                     ) : (
                         <Typography style= {{

@@ -12,6 +12,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import Typography from "@material-ui/core/Typography";
+
 import {
   withScriptjs,
   withGoogleMap,
@@ -25,14 +27,13 @@ function createData(uid, latitude, longitude, stateOfLight) {
 }
 
 //this need to be changed for current location after we have all appropiate data
-const myPosition = createData(12, 48.936497, 21.911423, "green")
-  ;
+// const myPosition = createData(12, 48.936497, 21.911423, "green");
 
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
   const { crosswalks, setCrosswalks } = useCrosswalks();
 
-  const myPosition = createData(12, 48.936497, 21.911423, "green");
+  // const myPosition = createData(12, 48.936497, 21.911423, "green");
 
   const markers = crosswalks.map(crosswalk =>
     <CrosswalkMarker
@@ -48,9 +49,9 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
       defaultCenter={{ lat: props.lat, lng: props.lng }}
 
     >
-      {props.isMarkerShown && (
+      {/* {props.isMarkerShown && (
         <Marker key={myPosition.uid} position={{ lat: props.lat, lng: props.lng }} />
-      )}
+      )} */}
 
       {markers}
     </GoogleMap>
@@ -65,13 +66,16 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 const Crosswalks = () => {
   const classes = useStyles();
   const { crosswalks, setCrosswalks } = useCrosswalks();
+  console.log(crosswalks)
+
+  const crosswalkss= undefined;
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Header />
       <main>
-        {console.log(myPosition)}
+        {/* {console.log(myPosition)} */}
         <div className={classes.customGrid}>
           <Grid
             container
@@ -79,11 +83,11 @@ const Crosswalks = () => {
             justify="center"
             alignItems="center"
             spacing={1}>
-            <Paper className={classes.paper}>
-              <Grid className={classes.crosswalkList} item  >
-                <List className={classes.list}>
                   {crosswalks && (
-                    crosswalks.map(crosswalk => (
+                    <Paper className={classes.paper}>
+                    <Grid className={classes.crosswalkList} item  >
+                    <List className={classes.list}>
+                    {crosswalks.map(crosswalk => (
                       <Link className={classes.link} to={
                         {
                           pathname: "/crosswalks/" + crosswalk.id,
@@ -99,32 +103,31 @@ const Crosswalks = () => {
                         </ListItem>
 
                       </Link>
-                    ))
+                    ))}
+                    </List>
+                    </Grid>
+                    </Paper> 
                   )}
-                </List>
-              </Grid>
-            </Paper>
             <Grid item xs={6} sm={8}>
-              {!myPosition ? (
-                <MyMapComponent
-                  isMarkerShown
-                  lat={14}
-                  lng={45}
-                  googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-                  loadingElement={<div style={{ height: `100%` }} />}
-                  containerElement={<div style={{ height: `600px` }} />}
-                  mapElement={<div style={{ height: `100%` }} />}
-                />
-              ) : (
+              {crosswalks ? (
+                 (crosswalks[0] &&
                   <MyMapComponent
                     isMarkerShown
-                    lat={myPosition.latitude}
-                    lng={myPosition.longitude}
+                    lat={crosswalks[0].latitude}
+                    lng={crosswalks[0].longitude}
                     googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `600px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
                   />
+                  )
+              ) : (
+                
+                  <Typography style= {{
+                    textAlign: "center"
+                  }} variant="h4" color="textSecondary">
+                      No crosswalks registered
+                  </Typography>
                 )}
             </Grid>
           </Grid>

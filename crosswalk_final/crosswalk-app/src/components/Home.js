@@ -17,6 +17,7 @@ import { Link, useParams } from "react-router-dom";
 // import { useTrip } from "../hooks/trips";
 import Header from "./layout/Header";
 import Footer from "./layout/Footer";
+import ImageMain from '../res/images/3519.jpg';
 
 import { typography } from "@material-ui/system";
 // import moment from "moment";
@@ -58,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
   mainFeaturedPost: {
     position: "relative",
-    backgroundColor: theme.palette.grey[800],
+    backgroundColor: theme.palette.grey[850],
     backgroundSize: "contain",
     height: 400,
     color: theme.palette.common.white,
@@ -121,10 +122,14 @@ const TripDetail = () => {
 
         <Paper
           className={classes.mainFeaturedPost}
-          style={{ backgroundImage: `url(https://www.lightguardsystems.com/wp-content/uploads/2015/01/Solar-wireless-RRFB-crosswalk-graphic.jpg)` }}
+          style={{ backgroundImage: `url(${ImageMain})` }}
+          // style={{ backgroundImage: `url(https://scontent.fbts3-1.fna.fbcdn.net/v/t1.15752-9/103968542_258560375406585_6128267737288111088_n.jpg?_nc_cat=106&_nc_sid=b96e70&_nc_ohc=q8C6SG6z5CUAX88Du3M&_nc_ht=scontent.fbts3-1.fna&oh=de5fc999561830684b2ae2d450084bf1&oe=5F09B0BD)` }}
+
         >
           {/* Increase the priority of the hero background image */}
-          {<img style={{ display: "none" }} src="https://www.lightguardsystems.com/wp-content/uploads/2015/01/Solar-wireless-RRFB-crosswalk-graphic.jpg" alt="img" />}
+          {<img style={{ display: "none" }} src={ImageMain} alt="img" />}
+          {/* {<img style={{ display: "none" }} src="https://scontent.fbts3-1.fna.fbcdn.net/v/t1.15752-9/103968542_258560375406585_6128267737288111088_n.jpg?_nc_cat=106&_nc_sid=b96e70&_nc_ohc=q8C6SG6z5CUAX88Du3M&_nc_ht=scontent.fbts3-1.fna&oh=de5fc999561830684b2ae2d450084bf1&oe=5F09B0BD" alt="img" />} */}
+
           <div className={classes.overlay} />
 
           <Grid container>
@@ -132,14 +137,14 @@ const TripDetail = () => {
               <div className={classes.mainFeaturedPostContent}>
                 <Typography
                   component="h1"
-                  variant="h3"
+                  variant="h2"
                   color="inherit"
                   // className={classes.typography}
                   gutterBottom
                 >
                   SPWS
                   </Typography>
-                <Typography variant="h5" color="inherit" paragraph>
+                <Typography variant="h4" color="inherit" paragraph>
                   This site is used for monitoring crosswalks in the city
                   </Typography>
                 <Typography color="inherit" paragraph>

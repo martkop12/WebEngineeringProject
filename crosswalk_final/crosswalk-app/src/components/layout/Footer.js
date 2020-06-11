@@ -53,8 +53,16 @@ const Footer = () => {
 
   return (
     <footer className={classes.footer}>
-      <Typography variant="h6" align="center" gutterBottom>
-        Footer
+      {/* <Typography variant="h6" align="center" gutterBottom>
+        Created by:
+      </Typography> */}
+      <Typography
+        variant="subtitle1"
+        align="center"
+        color="textSecondary"
+        component="p"
+      >
+        Higor Emanuel, Martin Kopka and Eduard Pizur
       </Typography>
       <Typography
         variant="subtitle1"
@@ -62,9 +70,9 @@ const Footer = () => {
         color="textSecondary"
         component="p"
       >
-        Nice footer!
+        Uminho Web Engineering 2020
       </Typography>
-      <Copyright />
+      {/* <Copyright /> */}
     </footer>
   );
 };

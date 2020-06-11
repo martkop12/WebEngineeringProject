@@ -78,7 +78,7 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Near ( < 100 m)' },
+  { id: 'name', numeric: false, disablePadding: true, label: 'Near ( < 50 m)' },
   // { id: 'crossed', numeric: true, disablePadding: false, label: 'Crossed' },
   { id: 'distance', numeric: true, disablePadding: false, label: 'Distance (m)' },
 

@@ -10,7 +10,7 @@ import { AuthContext } from "../services/Auth";
 const Content = () => {
   return (
     <div>
-      <Route exact path="/" component={SignHome}/>
+      <PrivateRoute exact path="/" component={SignHome}/>
       <Route exact path="/login" component={Home} />
     </div>
   );

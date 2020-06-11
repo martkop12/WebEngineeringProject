@@ -1,12 +1,16 @@
 var json = require('../../simulation_data/car.json');
 
 
-const send = async (uid,data,type,sender) => {
-    console.log(uid);
-    if(data == null){
-        console.log('finished');
-        clearInterval(sender);
-    }
+var car_data = json.features[0].coordinates;
+var ped1_data = json.features[1].coordinates;
+var ped2_data = json.features[2].coordinates;
+
+const ped1 = 'CfBxEFa4dCfYT8AbdTphagPBqnr1';
+const ped2 = 'bjI3mlGfg7MmBVGk2ppGVKbmhWT2';
+
+var test = 0;
+
+const send = async (uid,data,type) => {
     fetch('/api/world', {
         method: 'POST',
         headers: {
@@ -16,37 +20,33 @@ const send = async (uid,data,type,sender) => {
         id: uid,
         info: type,
         location: {
-            latitude: 48.25,
-            longitude: 25.22,
+            latitude: parseFloat(data[0]),
+            longitude: parseFloat(data[1]),
         }}),})
-    .then(rsp =>{
-        console.log('r:',rsp);
-    })
+    .then(rsp =>{})
     .catch((err)=>{
         console.log(err);
     })
-
 }
 
 export const simulate = async (uid) => {
-
-    const ped1 = 'CfBxEFa4dCfYT8AbdTphagPBqnr1';
-    const ped2 = 'bjI3mlGfg7MmBVGk2ppGVKbmhWT2';
-    
-    const car_data = json.features[0].coordinates;
-    const ped1_data = json.features[1].coordinates;
-    const ped2_data = json.features[2].coordinates;
-
-    let sender1, sender2, sender3;
-
-    
-    sender1 = setInterval(send, 1000,uid,car_data.shift(),'car',sender1);
-    
-    sender2 = setInterval(send, 1000, ped1, ped1_data.shift(), 'pedestrian', sender2);
-    
-    sender3 = setInterval(send, 1000, ped2, ped2_data.shift(), 'pedestrian', sender3);  
-    
+    let sendData2 = [48.935532,21.912398]
+    if(car_data.length > 0){
+        let sendData = car_data.shift();
+        console.log(sendData);
+        send(uid,sendData,'car');
+    }
+    if(ped1_data.length > 0){
+        let sendData = ped1_data.shift();
+        send(ped1,sendData,'pedestrian');
+    }
+    if(ped2_data.length > 0){
+        let sendData = ped2_data.shift();
+        send(ped2,sendData,'pedestrian');
+    } 
+    console.log(test++);
 }
+
 
 
 

@@ -47,22 +47,22 @@ export default function SendingContent(props) {
 
     const _getLocationAsync = async () => {
         let location = await navigator.geolocation.getCurrentPosition((position)=>{
-            fetch('/api/world', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                id: currentUser.uid,
-                info: typo[props.data.opt],
-                location: {
-                    latitude: 48.25,
-                    longitude: 25.22,
-                }}),})
-            .then(rsp =>{})
-            .catch((err)=>{
-                console.log(err);
-            })
+          fetch('/api/world', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            id: currentUser.uid,
+            info: typo[props.data.opt],
+            location: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+            }}),})
+        .then(rsp =>{})
+        .catch((err)=>{
+            console.log(err);
+        })
         },(error) =>{
             console.log('Error:', error);
         }) }
@@ -75,9 +75,9 @@ export default function SendingContent(props) {
         });
         let myvar;
         if(props.data.opt == 2){
-          simulate(currentUser.uid);
+          myvar = setInterval(simulate, 3000, currentUser.uid);
         }else{
-          myvar = setInterval(_getLocationAsync,2000);
+          myvar = setInterval(_getLocationAsync,3000);
         }
         
         return () => {          
